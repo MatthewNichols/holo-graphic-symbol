@@ -1,6 +1,6 @@
 import { Circle } from "./circle";
 
-export class CircleConstrainedRender {
+abstract class BaseConstrainedRender {
     constructor(public radius: number, public centerX: number, public centerY: number, 
         public circleRadii: number[], public colors: string[], private drawingMechanics: IDrawingMechanics) {
 
@@ -11,30 +11,19 @@ export class CircleConstrainedRender {
     diameter: number;
     circles: ICircle[];
 
-    render() {
-        const renderACircle = (sizeChoices: number[]) => {
-            const newCoordinates = this.getNewCoordinatesInsideCircle();
-            if (!newCoordinates) {
-                return;
-            }
+    abstract render(): void;
 
-            const circleSize = this.pickNewCircleSize(newCoordinates.x, newCoordinates.y, sizeChoices);
-            if (circleSize) {
-                const randomColor = this.pickCircleColor(newCoordinates.x, newCoordinates.y);
-                const circle = new Circle(newCoordinates.x, newCoordinates.y, circleSize, randomColor);
-                this.add(circle);
-            }
-        };
-
-        // Iterate to draw a lot of circles, first without the largest size circle
-        const allSizesButLargest = this.circleRadii.slice(1);
-        for (var i = 0; i < 300; i++) {
-            renderACircle(allSizesButLargest);
+    protected renderACircle(sizeChoices: number[]) {
+        const newCoordinates = this.getNewCoordinates();
+        if (!newCoordinates) {
+            return;
         }
 
-        // then with all the sizes
-        for (var i = 0; i < 3000; i++) {
-            renderACircle(this.circleRadii);
+        const circleSize = this.pickNewCircleSize(newCoordinates.x, newCoordinates.y, sizeChoices);
+        if (circleSize) {
+            const randomColor = this.pickCircleColor(newCoordinates.x, newCoordinates.y);
+            const circle = new Circle(newCoordinates.x, newCoordinates.y, circleSize, randomColor);
+            this.add(circle);
         }
     }
 
@@ -81,21 +70,13 @@ export class CircleConstrainedRender {
         return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
     };
 
-    getNewCoordinatesInsideCircle() {
-        //test that the candidate falls inside a circle centered on (radius, radius) of radius radius
-        const withinRadius = (coordinates: XYCoordinates) => {
-            return this.measureCoordinatesDistanceFromCenter(coordinates) < this.radius
-        };
+    abstract getNewCoordinates(): XYCoordinates | null;
 
-        return this.getNewCoordinates(withinRadius);
-    }
-
-    getNewCoordinates(testFunction: CoordinatesTestFunction): XYCoordinates | null {
+    protected testNewCoordinates(testFunction: CoordinatesTestFunction): XYCoordinates | null {
         //generate coordinate half between 0 and the diameter of circle 
         const genCandidateHalf = () => Math.random() * this.diameter;
 
         var candidateCoodinates; 
-
         let n = 0;
         while (n < 2) {
             candidateCoodinates = { x: genCandidateHalf(), y: genCandidateHalf() };
@@ -114,6 +95,48 @@ export class CircleConstrainedRender {
 
         return null;
     }
+}
 
-    
+export class CircleConstrainedRender extends BaseConstrainedRender {
+
+    render() {
+        // Iterate to draw a lot of circles, first without the largest size circle
+        const allSizesButLargest = this.circleRadii.slice(1);
+        for (var i = 0; i < 300; i++) {
+            this.renderACircle(allSizesButLargest);
+        }
+
+        // then with all the sizes
+        for (var i = 0; i < 3000; i++) {
+            this.renderACircle(this.circleRadii);
+        }
+    }
+
+    getNewCoordinates() {
+        //test that the candidate falls inside a circle centered on (radius, radius) of radius radius
+        const withinRadius = (coordinates: XYCoordinates) => {
+            return this.measureCoordinatesDistanceFromCenter(coordinates) < this.radius
+        };
+
+        return this.testNewCoordinates(withinRadius);
+    }
+}
+
+export class HaloRender extends BaseConstrainedRender {
+
+    render() {
+        // Iterate to draw a lot of circles
+        for (var i = 0; i < 3000; i++) {
+            this.renderACircle(this.circleRadii);
+        }
+    }
+
+    getNewCoordinates() {
+        //test that the candidate falls inside a circle centered on (radius, radius) of radius radius
+        const withinRadius = (coordinates: XYCoordinates) => {
+            return this.measureCoordinatesDistanceFromCenter(coordinates) > this.radius
+        };
+
+        return this.testNewCoordinates(withinRadius);
+    }
 }

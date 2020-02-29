@@ -1,4 +1,4 @@
-import { CircleConstrainedRender } from '../drawing/main-circle-renderer';
+import { CircleConstrainedRender, HaloRender } from '../drawing/main-circle-renderer';
 import { CanvasDrawingMechanics } from "../drawing/canvas-drawing-mechanics";
 
 const circleRadii = [ 17, 10, 8, 5 ];
@@ -15,10 +15,14 @@ var context1 = canvas1.getContext('2d');
 if (context1) {
     const circlesInCircleRender = 
         new CircleConstrainedRender(300, 500, 500, circleRadii, circleColors, new CanvasDrawingMechanics(context1));
+    
+    const haloRender = 
+        new HaloRender(400, 500, 500, circleRadii.slice(1), circleColors, new CanvasDrawingMechanics(context1));
 
     console.time("Loop")
 
     circlesInCircleRender.render();
+    haloRender.render();
 
     console.timeEnd("Loop");
     console.log(`${circlesInCircleRender.circles.length} Total`)
