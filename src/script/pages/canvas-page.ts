@@ -1,8 +1,8 @@
-import { CircleConstrainedRender, CanvasDrawingMechanics, Circle } from '../drawing/main-circle-renderer';
+import { CircleConstrainedRender } from '../drawing/main-circle-renderer';
+import { CanvasDrawingMechanics } from "../drawing/canvas-drawing-mechanics";
 
 const circleRadii = [ 17, 10, 8, 5 ];
 const circleColors = ["#1497A2", "#4A3B8E", "#1577B2"];
-
 
 var canvas1 = document.getElementById("circles-1") as HTMLCanvasElement;
 const palletteSize = 1000;

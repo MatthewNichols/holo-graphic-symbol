@@ -1,25 +1,4 @@
-
-interface IDrawingMechanics {
-    drawCircleObject(circle: Circle): void;
-}
-
-var _context: CanvasRenderingContext2D;
-export class CanvasDrawingMechanics implements IDrawingMechanics {
-
-    constructor(context: CanvasRenderingContext2D){ 
-        _context = context;
-    }  
-
-    drawCircleObject(circle: Circle) {
-        _context.beginPath();
-        _context.arc(circle.centerX, circle.centerY, circle.radius, 0, Math.PI * 2, false );
-        _context.fillStyle = circle.color;
-        _context.fill();
-    }
-};
-
-type XYCoordinates = {x: number, y: number };
-type CoordinatesTestFunction = (coordinates: XYCoordinates) => boolean;
+import { Circle } from "./circle";
 
 export class CircleConstrainedRender {
     constructor(public radius: number, public centerX: number, public centerY: number, 
@@ -30,10 +9,9 @@ export class CircleConstrainedRender {
     }
 
     diameter: number;
-    circles: Array<Circle>;
+    circles: Array<ICircle>;
 
     render() {
-
         // Iterate to draw a lot of circles
         for (var i = 0; i < 4000; i++) {
             const newCoordinates = this.getNewCoordinatesInsideCircle();
@@ -48,7 +26,6 @@ export class CircleConstrainedRender {
                 this.add(circle);
             }
         }
-
     }
 
     pickNewCircleSize(x: number, y: number) {
@@ -62,7 +39,7 @@ export class CircleConstrainedRender {
     }
 
     getNearestCircleCircleToCoordinates(x: number, y: number, howMany = 1) {
-        const distanceCalc = (otherCircle: Circle) => {
+        const distanceCalc = (otherCircle: ICircle) => {
             const xDiff = x - otherCircle.centerX;
             const yDiff = y - otherCircle.centerY;
             return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
@@ -79,12 +56,12 @@ export class CircleConstrainedRender {
         return this.colors[0];
     }
 
-    add(circle: Circle) {
+    add(circle: ICircle) {
         this.circles.push(circle);
         this.drawingMechanics.drawCircleObject(circle);
     }
 
-    willCollideWithAny(testCircle: Circle) {
+    willCollideWithAny(testCircle: ICircle) {
         return this.circles.some((c) => c.willCollideWith(testCircle));
     }
     
@@ -102,8 +79,6 @@ export class CircleConstrainedRender {
 
         return this.getNewCoordinates(withinRadius);
     }
-
-    
 
     getNewCoordinates(testFunction: CoordinatesTestFunction): XYCoordinates | null {
         //generate coordinate half between 0 and the diameter of circle 
@@ -131,25 +106,4 @@ export class CircleConstrainedRender {
     }
 
     
-}
-
-
-export class Circle {
-    constructor(public centerX: number, public centerY: number, public radius: number, public color: string = "") {
-    
-    }
-
-    willCollideWith = (otherCircle: Circle) => {
-        return this.distanceBetweenEdges(otherCircle) < 0;
-    }
-    
-    distanceBetweenEdges(otherCircle: Circle) {
-        return this.distanceBetweenCenters(otherCircle) - (this.radius + otherCircle.radius);
-    }
-
-    distanceBetweenCenters(otherCircle: Circle) {
-        const xDiff = this.centerX - otherCircle.centerX;
-        const yDiff = this.centerY - otherCircle.centerY;
-        return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
-    }
 }

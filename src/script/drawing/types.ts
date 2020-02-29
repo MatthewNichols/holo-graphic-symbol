@@ -1,0 +1,18 @@
+
+type XYCoordinates = {x: number, y: number };
+type CoordinatesTestFunction = (coordinates: XYCoordinates) => boolean;
+
+interface IDrawingMechanics {
+    drawCircleObject(circle: ICircle): void;
+}
+
+interface ICircle {
+    centerX: number;
+    centerY: number;
+    radius: number;
+    color: string;
+
+    willCollideWith(otherCircle: ICircle): boolean;
+    distanceBetweenEdges(otherCircle: ICircle): number;
+    distanceBetweenCenters(otherCircle: ICircle): number;
+}
