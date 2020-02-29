@@ -2,43 +2,53 @@ import { Circle } from "./circle";
 
 export class CircleConstrainedRender {
     constructor(public radius: number, public centerX: number, public centerY: number, 
-        public circleRadii: Array<number>, public colors: Array<string>, private drawingMechanics: IDrawingMechanics) {
+        public circleRadii: number[], public colors: string[], private drawingMechanics: IDrawingMechanics) {
 
         this.diameter = radius * 2;
         this.circles = [];
     }
 
     diameter: number;
-    circles: Array<ICircle>;
+    circles: ICircle[];
 
     render() {
-        // Iterate to draw a lot of circles
-        for (var i = 0; i < 4000; i++) {
+        const renderACircle = (sizeChoices: number[]) => {
             const newCoordinates = this.getNewCoordinatesInsideCircle();
             if (!newCoordinates) {
-                break;
+                return;
             }
 
-            const circleSize = this.pickNewCircleSize(newCoordinates.x, newCoordinates.y);
+            const circleSize = this.pickNewCircleSize(newCoordinates.x, newCoordinates.y, sizeChoices);
             if (circleSize) {
                 const randomColor = this.pickCircleColor(newCoordinates.x, newCoordinates.y);
                 const circle = new Circle(newCoordinates.x, newCoordinates.y, circleSize, randomColor);
                 this.add(circle);
             }
+        };
+
+        // Iterate to draw a lot of circles, first without the largest size circle
+        const allSizesButLargest = this.circleRadii.slice(1);
+        for (var i = 0; i < 300; i++) {
+            renderACircle(allSizesButLargest);
+        }
+
+        // then with all the sizes
+        for (var i = 0; i < 3000; i++) {
+            renderACircle(this.circleRadii);
         }
     }
 
-    pickNewCircleSize(x: number, y: number) {
-        return this.circleRadii.find((size: number) => !this.willCollideWithAny(new Circle(x, y, size)))
+    pickNewCircleSize(x: number, y: number, sizeChoices: number[]) {
+        return sizeChoices.find((size: number) => !this.willCollideWithAny(new Circle(x, y, size)))
     }
 
     pickCircleColor(circleX: number, circleY: number) {
-        const closestColor = this.getNearestCircleCircleToCoordinates(circleX, circleY);
+        const closestColor = this.getNearestCircleToCoordinates(circleX, circleY);
         const weightedPalette = [...this.colors, closestColor, closestColor, closestColor];
         return weightedPalette[Math.floor(Math.random() * weightedPalette.length)];
     }
 
-    getNearestCircleCircleToCoordinates(x: number, y: number, howMany = 1) {
+    getNearestCircleToCoordinates(x: number, y: number, howMany = 1) {
         const distanceCalc = (otherCircle: ICircle) => {
             const xDiff = x - otherCircle.centerX;
             const yDiff = y - otherCircle.centerY;
@@ -87,7 +97,7 @@ export class CircleConstrainedRender {
         var candidateCoodinates; 
 
         let n = 0;
-        while (n < 1.5) {
+        while (n < 2) {
             candidateCoodinates = { x: genCandidateHalf(), y: genCandidateHalf() };
             if (testFunction(candidateCoodinates)) {
                 break;
