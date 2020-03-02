@@ -1,8 +1,8 @@
 import { Circle } from "./circle";
 
 abstract class BaseConstrainedRender {
-    constructor(public radius: number, public centerX: number, public centerY: number, 
-        public circleRadii: number[], public colors: string[], private drawingMechanics: IDrawingMechanics) {
+    constructor(public centerX: number, public centerY: number, public circleRadii: number[], public circleColors: string[], 
+        private drawingMechanics: IDrawingMechanics, public radius: number) {
 
         this.diameter = radius * 2;
         this.circles = [];
@@ -33,7 +33,7 @@ abstract class BaseConstrainedRender {
 
     pickCircleColor(circleX: number, circleY: number) {
         const closestColor = this.getNearestCircleToCoordinates(circleX, circleY);
-        const weightedPalette = [...this.colors, closestColor, closestColor, closestColor];
+        const weightedPalette = [...this.circleColors, closestColor, closestColor, closestColor];
         return weightedPalette[Math.floor(Math.random() * weightedPalette.length)];
     }
 
@@ -52,7 +52,7 @@ abstract class BaseConstrainedRender {
             return closestColor[0].color
         }
 
-        return this.colors[0];
+        return this.circleColors[0];
     }
 
     add(circle: ICircle) {
@@ -71,34 +71,9 @@ abstract class BaseConstrainedRender {
     };
 
     abstract getNewCoordinates(): XYCoordinates | null;
-
-    protected testNewCoordinates(testFunction: CoordinatesTestFunction): XYCoordinates | null {
-        //generate coordinate half between 0 and the diameter of circle 
-        const genCandidateHalf = () => Math.random() * this.diameter;
-
-        var candidateCoodinates; 
-        let n = 0;
-        while (n < 2) {
-            candidateCoodinates = { x: genCandidateHalf(), y: genCandidateHalf() };
-            if (testFunction(candidateCoodinates)) {
-                break;
-            }
-            n =+ 1;
-        }
-
-        if (candidateCoodinates) {    
-            return { 
-                x: candidateCoodinates.x + (this.centerX - this.radius),
-                y: candidateCoodinates.y + (this.centerY - this.radius)
-            };
-        }
-
-        return null;
-    }
 }
 
 export class CircleConstrainedRender extends BaseConstrainedRender {
-
     render() {
         // Iterate to draw a lot of circles, first without the largest size circle
         const allSizesButLargest = this.circleRadii.slice(1);
@@ -118,11 +93,39 @@ export class CircleConstrainedRender extends BaseConstrainedRender {
             return this.measureCoordinatesDistanceFromCenter(coordinates) < this.radius
         };
 
-        return this.testNewCoordinates(withinRadius);
+        const genCandidateHalf = () => Math.random() * this.diameter;
+
+        var candidateCoodinates; 
+        let n = 0;
+        while (n < 2) {
+            candidateCoodinates = { x: genCandidateHalf(), y: genCandidateHalf() };
+            if (withinRadius(candidateCoodinates)) {
+                break;
+            }
+            n =+ 1;
+        }
+
+        if (candidateCoodinates) {    
+            return { 
+                x: candidateCoodinates.x + (this.centerX - this.radius),
+                y: candidateCoodinates.y + (this.centerY - this.radius)
+            };
+        }
+
+        return null;
     }
 }
 
 export class HaloRender extends BaseConstrainedRender {
+    constructor(centerX: number, centerY: number, circleRadii: number[], circleColors: string[], 
+        drawingMechanics: IDrawingMechanics, radius: number, public haloThickness: number) {
+            super(centerX, centerY, circleRadii, circleColors, drawingMechanics, radius);
+
+            this.secondaryRadius = this.radius + haloThickness;
+            this.diameter = this.secondaryRadius * 2;
+    }
+
+    secondaryRadius: number;
 
     render() {
         // Iterate to draw a lot of circles
@@ -134,9 +137,29 @@ export class HaloRender extends BaseConstrainedRender {
     getNewCoordinates() {
         //test that the candidate falls inside a circle centered on (radius, radius) of radius radius
         const withinRadius = (coordinates: XYCoordinates) => {
-            return this.measureCoordinatesDistanceFromCenter(coordinates) > this.radius
+            const distanceFromCenter = this.measureCoordinatesDistanceFromCenter(coordinates);
+            return distanceFromCenter > this.radius && distanceFromCenter < this.secondaryRadius;
         };
 
-        return this.testNewCoordinates(withinRadius);
+        const genCandidateHalf = () => Math.random() * this.secondaryRadius * 2;
+
+        var candidateCoodinates; 
+        let n = 0;
+        while (n < 2) {
+            candidateCoodinates = { x: genCandidateHalf(), y: genCandidateHalf() };
+            if (withinRadius(candidateCoodinates)) {
+                break;
+            }
+            n =+ 1;
+        }
+
+        if (candidateCoodinates) {    
+            return { 
+                x: candidateCoodinates.x + (this.centerX - this.radius),
+                y: candidateCoodinates.y + (this.centerY - this.radius)
+            };
+        }
+
+        return null;
     }
 }

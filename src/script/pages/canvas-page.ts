@@ -14,10 +14,10 @@ var context1 = canvas1.getContext('2d');
 
 if (context1) {
     const circlesInCircleRender = 
-        new CircleConstrainedRender(300, 500, 500, circleRadii, circleColors, new CanvasDrawingMechanics(context1));
+        new CircleConstrainedRender(500, 500, circleRadii, circleColors, new CanvasDrawingMechanics(context1), 200);
     
     const haloRender = 
-        new HaloRender(400, 500, 500, circleRadii.slice(1), circleColors, new CanvasDrawingMechanics(context1));
+        new HaloRender(500, 500, circleRadii.slice(1), circleColors, new CanvasDrawingMechanics(context1), 250, 150);
 
     console.time("Loop")
 
