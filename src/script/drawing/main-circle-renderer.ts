@@ -88,18 +88,14 @@ export class CircleConstrainedRender extends BaseConstrainedRender {
     }
 
     getNewCoordinates() {
-        //test that the candidate falls inside a circle centered on (radius, radius) of radius radius
-        const withinRadius = (coordinates: XYCoordinates) => {
-            return this.measureCoordinatesDistanceFromCenter(coordinates) < this.radius
-        };
-
         const genCandidateHalf = () => Math.random() * this.diameter;
 
         var candidateCoodinates; 
         let n = 0;
         while (n < 2) {
             candidateCoodinates = { x: genCandidateHalf(), y: genCandidateHalf() };
-            if (withinRadius(candidateCoodinates)) {
+            //test that the candidate falls inside a circle centered on (radius, radius) of radius radius
+            if (this.measureCoordinatesDistanceFromCenter(candidateCoodinates) < this.radius) {
                 break;
             }
             n =+ 1;
