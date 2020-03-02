@@ -1,5 +1,6 @@
 import { CircleConstrainedRender } from '../drawing/main-circle-renderer';
 import { HaloRenderer } from "../drawing/halo-renderer";
+import { MarkRender } from "../drawing/mark-renderer";
 import { CanvasDrawingMechanics } from "../drawing/canvas-drawing-mechanics";
 
 const circleRadii = [ 17, 10, 8, 5 ];
@@ -17,11 +18,12 @@ if (context1) {
     const drawingMechanics = new CanvasDrawingMechanics(context1);
     const mainCircle = new CircleConstrainedRender(500, 500, circleRadii, circleColors, drawingMechanics, 200);
     const halo = new HaloRenderer(500, 500, circleRadii.slice(1), circleColors, drawingMechanics, 250, 150);
-
+    const mark = new MarkRender(500, 500, drawingMechanics, 200);
     console.time("Loop")
 
     mainCircle.render();
     halo.render();
+    mark.render();
 
     console.timeEnd("Loop");
     console.log(`${mainCircle.circles.length} Total`)

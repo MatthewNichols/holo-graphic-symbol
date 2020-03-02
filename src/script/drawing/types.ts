@@ -4,6 +4,7 @@ type CoordinatesTestFunction = (coordinates: XYCoordinates) => boolean;
 
 interface IDrawingMechanics {
     drawCircleObject(circle: ICircle): void;
+    drawSvgPath(pathString: string, color: string): void;
 }
 
 interface ICircle {
