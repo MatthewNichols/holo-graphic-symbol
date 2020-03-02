@@ -128,16 +128,15 @@ export class HaloRender extends BaseConstrainedRender {
 
     render() {
         // Iterate to draw a lot of circles
-        for (var i = 0; i < 1000; i++) {
+        for (var i = 0; i < 600; i++) {
             this.renderACircle(this.circleRadii);
         }
     }
 
     getNewCoordinates() {
         const randomAngle = Math.random() * Math.PI * 2;
-        const randomDistanceFromCenter = (Math.random() * this.haloThickness) + this.radius;
+        const randomDistanceFromCenter = ((Math.log(1 - Math.random()) / -4.5)  * this.haloThickness) + this.radius;
 
-        //console.log(`angle: ${randomAngle}, distance: ${randomDistanceFromCenter}`);
         const candidateCoodinates = { 
             x: (Math.cos(randomAngle) * randomDistanceFromCenter), 
             y: (Math.sin(randomAngle) * randomDistanceFromCenter) };
