@@ -4,11 +4,9 @@ abstract class BaseConstrainedRender {
     constructor(public centerX: number, public centerY: number, public circleRadii: number[], public circleColors: string[], 
         private drawingMechanics: IDrawingMechanics, public radius: number) {
 
-        this.diameter = radius * 2;
         this.circles = [];
     }
 
-    diameter: number;
     circles: ICircle[];
 
     abstract render(): void;
@@ -74,6 +72,15 @@ abstract class BaseConstrainedRender {
 }
 
 export class CircleConstrainedRender extends BaseConstrainedRender {
+    constructor(centerX: number, centerY: number, circleRadii: number[], circleColors: string[], 
+        drawingMechanics: IDrawingMechanics, radius: number) {
+
+        super(centerX, centerY, circleRadii, circleColors, drawingMechanics, radius);
+        this.diameter = radius * 2;
+    }
+
+    diameter: number;
+
     render() {
         // Iterate to draw a lot of circles, first without the largest size circle
         const allSizesButLargest = this.circleRadii.slice(1);
