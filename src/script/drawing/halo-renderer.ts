@@ -1,6 +1,6 @@
 import { BaseConstrainedRenderer } from "./base-constrained-renderer";
 export class HaloRenderer extends BaseConstrainedRenderer {
-    constructor(centerX: number, centerY: number, circleRadii: number[], circleColors: string[], drawingMechanics: IDrawingMechanics, radius: number, public haloThickness: number) {
+    constructor(centerX: number, centerY: number, circleRadii: SizeChoice[], circleColors: string[], drawingMechanics: IDrawingMechanics, radius: number, public haloThickness: number) {
         super(centerX, centerY, circleRadii, circleColors, drawingMechanics, radius);
     }
     render() {

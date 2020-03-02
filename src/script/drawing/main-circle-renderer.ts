@@ -1,7 +1,7 @@
 import { BaseConstrainedRenderer } from "./base-constrained-renderer";
 
 export class CircleConstrainedRender extends BaseConstrainedRenderer {
-    constructor(centerX: number, centerY: number, circleRadii: number[], circleColors: string[], 
+    constructor(centerX: number, centerY: number, circleRadii: SizeChoice[], circleColors: string[], 
         drawingMechanics: IDrawingMechanics, radius: number) {
 
         super(centerX, centerY, circleRadii, circleColors, drawingMechanics, radius);

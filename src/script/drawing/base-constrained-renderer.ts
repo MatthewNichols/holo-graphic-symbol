@@ -1,6 +1,6 @@
 import { Circle } from "./circle";
 export abstract class BaseConstrainedRenderer {
-    constructor(public centerX: number, public centerY: number, public circleRadii: number[], public circleColors: string[], 
+    constructor(public centerX: number, public centerY: number, public circleRadii: SizeChoice[], public circleColors: string[], 
         private drawingMechanics: IDrawingMechanics, public radius: number) {
         
         this.circles = [];
@@ -10,7 +10,7 @@ export abstract class BaseConstrainedRenderer {
     
     abstract render(): void;
     
-    protected renderACircle(sizeChoices: number[]) {
+    protected renderACircle(sizeChoices: SizeChoice[]) {
         const newCoordinates = this.getNewCoordinates();
         if (!newCoordinates) {
             return;
@@ -23,8 +23,8 @@ export abstract class BaseConstrainedRenderer {
         }
     }
 
-    pickNewCircleSize(x: number, y: number, sizeChoices: number[]) {
-        return sizeChoices.find((size: number) => !this.willCollideWithAny(new Circle(x, y, size)));
+    pickNewCircleSize(x: number, y: number, sizeChoices: SizeChoice[]): number | undefined {
+        return sizeChoices.find((size: SizeChoice) => !this.willCollideWithAny(new Circle(x, y, size.size)))?.size;
     }
 
     pickCircleColor(circleX: number, circleY: number) {

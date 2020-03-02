@@ -13,7 +13,7 @@ export class CanvasDrawingMechanics implements IDrawingMechanics {
     drawSvgPath(pathString: string, color: string) {
         this.context.fillStyle = color;
         const pathObj = new Path2D(pathString);
-        console.log(pathObj)
+        //console.log(pathObj)
         this.context.fill(pathObj);
     }
 
