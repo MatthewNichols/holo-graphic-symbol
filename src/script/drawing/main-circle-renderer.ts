@@ -115,47 +115,29 @@ export class CircleConstrainedRender extends BaseConstrainedRender {
 export class HaloRender extends BaseConstrainedRender {
     constructor(centerX: number, centerY: number, circleRadii: number[], circleColors: string[], 
         drawingMechanics: IDrawingMechanics, radius: number, public haloThickness: number) {
-            super(centerX, centerY, circleRadii, circleColors, drawingMechanics, radius);
-
-            this.secondaryRadius = this.radius + haloThickness;
-            this.diameter = this.secondaryRadius * 2;
+        
+        super(centerX, centerY, circleRadii, circleColors, drawingMechanics, radius);
     }
-
-    secondaryRadius: number;
 
     render() {
         // Iterate to draw a lot of circles
-        for (var i = 0; i < 3000; i++) {
+        for (var i = 0; i < 1000; i++) {
             this.renderACircle(this.circleRadii);
         }
     }
 
     getNewCoordinates() {
-        //test that the candidate falls inside a circle centered on (radius, radius) of radius radius
-        const withinRadius = (coordinates: XYCoordinates) => {
-            const distanceFromCenter = this.measureCoordinatesDistanceFromCenter(coordinates);
-            return distanceFromCenter > this.radius && distanceFromCenter < this.secondaryRadius;
+        const randomAngle = Math.random() * Math.PI * 2;
+        const randomDistanceFromCenter = (Math.random() * this.haloThickness) + this.radius;
+
+        //console.log(`angle: ${randomAngle}, distance: ${randomDistanceFromCenter}`);
+        const candidateCoodinates = { 
+            x: (Math.cos(randomAngle) * randomDistanceFromCenter), 
+            y: (Math.sin(randomAngle) * randomDistanceFromCenter) };
+            
+        return { 
+            x: candidateCoodinates.x + this.centerX,
+            y: candidateCoodinates.y + this.centerY
         };
-
-        const genCandidateHalf = () => Math.random() * this.secondaryRadius * 2;
-
-        var candidateCoodinates; 
-        let n = 0;
-        while (n < 2) {
-            candidateCoodinates = { x: genCandidateHalf(), y: genCandidateHalf() };
-            if (withinRadius(candidateCoodinates)) {
-                break;
-            }
-            n =+ 1;
-        }
-
-        if (candidateCoodinates) {    
-            return { 
-                x: candidateCoodinates.x + (this.centerX - this.radius),
-                y: candidateCoodinates.y + (this.centerY - this.radius)
-            };
-        }
-
-        return null;
     }
 }
