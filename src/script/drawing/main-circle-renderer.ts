@@ -13,7 +13,7 @@ export class CircleConstrainedRender extends BaseConstrainedRenderer {
     render() {
         // Iterate to draw a lot of circles, first without the largest size circle
         const allSizesButLargest = this.circleRadii.slice(1);
-        for (var i = 0; i < 300; i++) {
+        for (var i = 0; i < 200; i++) {
             this.renderACircle(allSizesButLargest);
         }
 

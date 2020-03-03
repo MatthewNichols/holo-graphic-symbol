@@ -24,7 +24,11 @@ export abstract class BaseConstrainedRenderer {
     }
 
     pickNewCircleSize(x: number, y: number, sizeChoices: SizeChoice[]): number | undefined {
-        return sizeChoices.find((size: SizeChoice) => !this.willCollideWithAny(new Circle(x, y, size.size)))?.size;
+        return this.sizeChoicesRandomSorted(sizeChoices).find((size: SizeChoice) => !this.willCollideWithAny(new Circle(x, y, size.size)))?.size;
+    }
+
+    sizeChoicesRandomSorted(sizeChoices: SizeChoice[]) {
+        return sizeChoices.sort((a, b) => (a.weight * Math.random()) < (b.weight * Math.random()) ? 1 : -1 )
     }
 
     pickCircleColor(circleX: number, circleY: number) {
