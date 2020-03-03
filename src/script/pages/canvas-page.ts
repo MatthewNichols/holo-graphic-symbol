@@ -6,9 +6,9 @@ import { CanvasDrawingMechanics } from "../drawing/canvas-drawing-mechanics";
 const scalingFactor = 400 / 912; 
 const mainCircleSizes: SizeChoice[] = [
     { size: 17, weight: 1 },
-    { size: 10, weight: 1 },
-    { size: 8, weight: 1.5 },
-    { size: 5, weight: 1.5 },
+    { size: 12, weight: 1 },
+    { size: 8, weight: 1.25 },
+    { size: 5, weight: 1.25 },
     //{ size: 3, weight: 2.5 }
 ].map((s) => ({ size: s.size * scalingFactor, weight: s.weight }));
 
@@ -37,6 +37,9 @@ if (context1) {
 
     console.time("Loop")
 
+    mainCircle.calculateInitial();
+    halo.calculateInitial();
+        
     mainCircle.render();
     halo.render();
     mark.render();

@@ -8,9 +8,13 @@ export abstract class BaseConstrainedRenderer {
 
     circles: ICircle[];
     
-    abstract render(): void;
+    abstract calculateInitial(): void;
+
+    render(): void {
+        this.circles.forEach((c) => this.drawingMechanics.drawCircleObject(c));
+    }
     
-    protected renderACircle(sizeChoices: SizeChoice[]) {
+    protected calculateACircle(sizeChoices: SizeChoice[]) {
         const newCoordinates = this.getNewCoordinates();
         if (!newCoordinates) {
             return;
@@ -19,7 +23,7 @@ export abstract class BaseConstrainedRenderer {
         if (circleSize) {
             const randomColor = this.pickCircleColor(newCoordinates.x, newCoordinates.y);
             const circle = new Circle(newCoordinates.x, newCoordinates.y, circleSize, randomColor);
-            this.add(circle);
+            this.addCircle(circle);
         }
     }
 
@@ -33,7 +37,7 @@ export abstract class BaseConstrainedRenderer {
 
     pickCircleColor(circleX: number, circleY: number) {
         const closestColor = this.getNearestCircleToCoordinates(circleX, circleY);
-        const weightedPalette = [...this.circleColors, closestColor, closestColor, closestColor];
+        const weightedPalette = [...this.circleColors, closestColor, closestColor, closestColor, closestColor, closestColor, closestColor];
         return weightedPalette[Math.floor(Math.random() * weightedPalette.length)];
     }
 
@@ -52,9 +56,8 @@ export abstract class BaseConstrainedRenderer {
         return this.circleColors[0];
     }
 
-    add(circle: ICircle) {
+    addCircle(circle: ICircle) {
         this.circles.push(circle);
-        this.drawingMechanics.drawCircleObject(circle);
     }
 
     willCollideWithAny(testCircle: ICircle) {

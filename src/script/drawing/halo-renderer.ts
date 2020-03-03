@@ -5,18 +5,27 @@ export class HaloRenderer extends BaseConstrainedRenderer {
     constructor(centerX: number, centerY: number, circleRadii: SizeChoice[], circleColors: string[], 
             drawingMechanics: IDrawingMechanics, radius: number, public haloThickness: number) {
         super(centerX, centerY, circleRadii, circleColors, drawingMechanics, radius);
+
+        let circleColorSpecs: {[key: string]: ColorSpec} = {};
+        circleColors.forEach((c) => {
+            circleColorSpecs[c] = this.hexToRgbColorSpec(c);
+        });
+        this.circleColorSpecs = circleColorSpecs;
+         
     }
 
     readonly greatestDistanceFromCenter = this.radius + this.haloThickness;
+    readonly circleColorSpecs: {[key: string]: ColorSpec};
 
-    render() {
+
+    calculateInitial() {
         // Iterate to draw a lot of circles
         for (var i = 0; i < 1600; i++) {
-            this.renderACircle(this.circleRadii);
+            this.calculateACircle(this.circleRadii);
         }
     }
     
-    protected renderACircle(sizeChoices: SizeChoice[]) {
+    protected calculateACircle(sizeChoices: SizeChoice[]) {
         const newCoordinates = this.getNewCoordinates();
         if (!newCoordinates) {
             return;
@@ -24,10 +33,10 @@ export class HaloRenderer extends BaseConstrainedRenderer {
         
         const circleSize = this.pickNewCircleSize(newCoordinates.x, newCoordinates.y, sizeChoices);
         if (circleSize) {
-            let randomColor =  this.hexToRgbColorSpec(this.pickCircleColor(newCoordinates.x, newCoordinates.y) as string, 
-                this.calculateAlpha(newCoordinates.distanceFromCenter));
+            let randomColor = this.circleColorSpecs[this.pickCircleColor(newCoordinates.x, newCoordinates.y) as string] as any; 
+            randomColor = { ...randomColor, alpha: this.calculateAlpha(newCoordinates.distanceFromCenter) };
             const circle = new Circle(newCoordinates.x, newCoordinates.y, circleSize, randomColor);
-            this.add(circle);
+            this.addCircle(circle);
         }
     }
 
@@ -35,13 +44,12 @@ export class HaloRenderer extends BaseConstrainedRenderer {
         return Math.pow((this.greatestDistanceFromCenter - distanceFromCenter) / this.haloThickness, 2);
     }
 
-    hexToRgbColorSpec(hexColorCode: string, alpha: number = 1): ColorSpec {
+    hexToRgbColorSpec(hexColorCode: string): ColorSpec {
         var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hexColorCode);
         return result ? {
             r: parseInt(result[1], 16),
             g: parseInt(result[2], 16),
-            b: parseInt(result[3], 16),
-            alpha
+            b: parseInt(result[3], 16)
         } : "";
     }
 
