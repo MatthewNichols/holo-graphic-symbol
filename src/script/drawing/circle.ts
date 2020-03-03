@@ -1,5 +1,5 @@
 export class Circle implements ICircle {
-    constructor(public centerX: number, public centerY: number, public radius: number, public color: string = "") {
+    constructor(public centerX: number, public centerY: number, public radius: number, public color: ColorSpec = "") {
     }
     willCollideWith = (otherCircle: ICircle) => {
         return this.distanceBetweenEdges(otherCircle) < 0;

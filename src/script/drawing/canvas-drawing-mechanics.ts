@@ -6,8 +6,19 @@ export class CanvasDrawingMechanics implements IDrawingMechanics {
     drawCircleObject(circle: ICircle) {
         this.context.beginPath();
         this.context.arc(circle.centerX, circle.centerY, circle.radius, 0, Math.PI * 2, false);
-        this.context.fillStyle = circle.color;
+        this.context.fillStyle = this.resolveColorExpression(circle.color);
         this.context.fill();
+    }
+
+    resolveColorExpression(color: ColorSpec): string {
+        if (typeof color === "string") {
+            return color;
+        }
+        if (color.b !== undefined) {
+            return `rgba(${color.r}, ${color.g}, ${color.b}, ${color.alpha || 1})`;
+        }
+
+        return "";
     }
 
     drawSvgPath(pathString: string, color: string) {
