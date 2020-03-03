@@ -1,6 +1,15 @@
 
 export class CanvasDrawingMechanics implements IDrawingMechanics {
     constructor(private context: CanvasRenderingContext2D) {
+        this.canvasWidth = context.canvas.width;
+        this.canvasHeight = context.canvas.height;
+    }
+
+    readonly canvasWidth: number;
+    readonly canvasHeight: number;
+
+    clear() {
+        this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
     }
 
     drawCircleObject(circle: ICircle) {
@@ -26,6 +35,10 @@ export class CanvasDrawingMechanics implements IDrawingMechanics {
         const pathObj = new Path2D(pathString);
         //console.log(pathObj)
         this.context.fill(pathObj);
+    }
+
+    areCoordinatesOutOfBounds(x: number, y: number): boolean {
+        return (x < 0 || y < 0 || x > this.canvasWidth || y > this.canvasHeight);
     }
 
     //drawSvgPath(pathString: string, color: string) {

@@ -1,7 +1,7 @@
 import { Circle } from "./circle";
 export abstract class BaseConstrainedRenderer {
     constructor(public centerX: number, public centerY: number, public circleRadii: SizeChoice[], public circleColors: string[], 
-        private drawingMechanics: IDrawingMechanics, public radius: number) {
+        protected drawingMechanics: IDrawingMechanics, public radius: number) {
         
         this.circles = [];
     }
@@ -9,6 +9,8 @@ export abstract class BaseConstrainedRenderer {
     circles: ICircle[];
     
     abstract calculateInitial(): void;
+
+    calculateAnimationFrame(): void {}
 
     render(): void {
         this.circles.forEach((c) => this.drawingMechanics.drawCircleObject(c));

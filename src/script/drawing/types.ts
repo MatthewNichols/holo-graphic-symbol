@@ -5,8 +5,10 @@ type SizeChoice = { size: number, weight: number };
 type ColorSpec = string | { r: number, g: number, b: number, alpha?: number };
 
 interface IDrawingMechanics {
+    clear(): void;
     drawCircleObject(circle: ICircle): void;
     drawSvgPath(pathString: string, color: string): void;
+    areCoordinatesOutOfBounds(x: number, y: number): boolean;
 }
 
 interface ICircle {
@@ -14,6 +16,7 @@ interface ICircle {
     centerY: number;
     radius: number;
     color: ColorSpec;
+    markedForRemoval: boolean;
 
     willCollideWith(otherCircle: ICircle): boolean;
     distanceBetweenEdges(otherCircle: ICircle): number;
