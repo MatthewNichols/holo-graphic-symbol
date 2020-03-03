@@ -27,7 +27,7 @@ const palletteSize = 1000;
 canvas1.width = palletteSize;
 canvas1.height = palletteSize;
 // Get drawing context
-var context1 = canvas1.getContext('2d');
+var context1 = canvas1.getContext('2d', { alpha: false });
 
 if (context1) {
     const drawingMechanics = new CanvasDrawingMechanics(context1);
@@ -35,17 +35,39 @@ if (context1) {
     const halo = new HaloRenderer(500, 500, haloCircleSizes, circleColors, drawingMechanics, 215, 75);
     const mark = new MarkRender(500, 500, drawingMechanics, 200);
 
-    console.time("Loop")
+    console.time("calculateInitial")
 
     mainCircle.calculateInitial();
     halo.calculateInitial();
-        
+
+    console.timeEnd("calculateInitial");
+    console.time("Render");
+    
+
     mainCircle.render();
     halo.render();
     mark.render();
 
-    console.timeEnd("Loop");
+    console.timeEnd("Render");
     console.log(`${mainCircle.circles.length} Total`);
+
+    let lastTimestamp: DOMHighResTimeStamp = 0;
+    let tickCountdown = 200;
+    const animationLoop = (timestamp: DOMHighResTimeStamp) => {
+        const timeSinceLastCall = timestamp - lastTimestamp;
+        tickCountdown = tickCountdown - timeSinceLastCall;
+        if (tickCountdown < 0) {
+            //console.log("tick", tickCountdown);
+            tickCountdown = 200 + tickCountdown;
+            // do work
+        }
+
+        lastTimestamp = timestamp;
+        window.requestAnimationFrame(animationLoop);
+    }
+
+    //window.requestAnimationFrame(animationLoop);
+
 } else {
     console.error("No Canvas context found");
 }
