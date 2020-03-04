@@ -8,8 +8,9 @@ export class CanvasDrawingMechanics implements IDrawingMechanics {
     readonly canvasWidth: number;
     readonly canvasHeight: number;
 
-    clear() {
-        this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+    clear(colorCode: string = "#000") {
+        this.context.fillStyle = colorCode;
+        this.context.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
     }
 
     drawCircleObject(circle: ICircle) {
