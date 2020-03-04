@@ -1,5 +1,6 @@
 import { CircleConstrainedRender } from '../drawing/main-circle-renderer';
 import { HaloRenderer } from "../drawing/halo-renderer";
+import { BurstRenderer } from "../drawing/burst-renderer";
 import { MarkRender } from "../drawing/mark-renderer";
 import { CanvasDrawingMechanics } from "../drawing/canvas-drawing-mechanics";
 
@@ -33,11 +34,13 @@ if (context1) {
     const drawingMechanics = new CanvasDrawingMechanics(context1);
     const mainCircle = new CircleConstrainedRender(500, 500, mainCircleSizes, circleColors, drawingMechanics, 200);
     const halo = new HaloRenderer(500, 500, haloCircleSizes, circleColors, drawingMechanics, 215, 75);
+    const burst = new BurstRenderer(500, 500, haloCircleSizes, circleColors, drawingMechanics, 215, 75);
     const mark = new MarkRender(500, 500, drawingMechanics, 200);
 
     function renderAll() {
         mainCircle.render();
         halo.render();
+        burst.render();
         mark.render();    
     }
 
@@ -45,6 +48,7 @@ if (context1) {
 
     mainCircle.calculateInitial();
     halo.calculateInitial();
+    burst.calculateInitial();
 
     console.timeEnd("calculateInitial");
     console.time("Render");
@@ -56,16 +60,24 @@ if (context1) {
 
     let lastTimestamp: DOMHighResTimeStamp = 0;
     let tickCountdown = 20;
+    let burstContinue = true;
+    let haloContinue = true;
     const animationLoop = (timestamp: DOMHighResTimeStamp) => {
         const timeSinceLastCall = timestamp - lastTimestamp;
         let continueAnimation = true;
+        
         tickCountdown = tickCountdown - timeSinceLastCall;
         if (tickCountdown < 0) {
             //console.log("tick", tickCountdown);
             tickCountdown = 20 + tickCountdown;
             // do work
 
-            continueAnimation = halo.calculateAnimationFrame();
+            if (burstContinue) {
+                burstContinue = burst.calculateAnimationFrame();
+            } else {
+                haloContinue = halo.calculateAnimationFrame();
+            }
+            continueAnimation = burstContinue || haloContinue;
             drawingMechanics.clear();
             renderAll();
         }
@@ -73,6 +85,8 @@ if (context1) {
         lastTimestamp = timestamp;
         if (continueAnimation) {
             window.requestAnimationFrame(animationLoop);
+        } else {
+            console.log("animation complete");
         }
     }
 

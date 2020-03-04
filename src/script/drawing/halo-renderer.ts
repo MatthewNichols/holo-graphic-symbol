@@ -1,31 +1,4 @@
 import { BaseConstrainedRenderer } from "./base-constrained-renderer";
-import { Circle } from "./circle";
-
-class CircleWithPolarData extends Circle {
-    constructor(centerX: number, centerY: number, radius: number, color: ColorSpec = "", public distanceFromCenter: number, public angle: number) {
-        super(centerX, centerY, radius, color);
-        //console.log("CircleWithPolarData", centerX, centerY)
-    }
-
-    moveOutFromCenter(pixelsIncrease: number): void {
-        const originalCoodinates = {
-            x: (Math.cos(this.angle) * this.distanceFromCenter),
-            y: (Math.sin(this.angle) * this.distanceFromCenter)
-        };
-
-        this.distanceFromCenter = this.distanceFromCenter + pixelsIncrease;
-
-        const newCoodinates = {
-            x: (Math.cos(this.angle) * this.distanceFromCenter),
-            y: (Math.sin(this.angle) * this.distanceFromCenter)
-        };
-
-        this.centerX = this.centerX + (newCoodinates.x - originalCoodinates.x );
-        this.centerY = this.centerY + (newCoodinates.y - originalCoodinates.y );
-
-        //console.log(this.distanceFromCenter, this.centerX, this.centerY, newCoodinates)
-    }
-}
 
 export class HaloRenderer extends BaseConstrainedRenderer {
     constructor(centerX: number, centerY: number, circleRadii: SizeChoice[], circleColors: string[], 
@@ -43,7 +16,6 @@ export class HaloRenderer extends BaseConstrainedRenderer {
     readonly greatestDistanceFromCenter = this.radius + this.haloThickness;
     readonly circleColorSpecs: {[key: string]: ColorSpec};
 
-
     calculateInitial() {
         // Iterate to draw a lot of circles
         for (var i = 0; i < 1600; i++) {
@@ -52,33 +24,7 @@ export class HaloRenderer extends BaseConstrainedRenderer {
     }
     
     calculateAnimationFrame(): boolean {
-        this.circles = this.circles.filter((c) => ! c.markedForRemoval);
-
-        this.circles.forEach((c) => {
-            const circle = (c as CircleWithPolarData);
-            circle.moveOutFromCenter(1);
-            if (this.drawingMechanics.areCoordinatesOutOfBounds(circle.centerX, circle.centerY)) {
-                circle.markedForRemoval = true;
-            }
-        });
-
-        //console.log("calculateAnimationFrame", this.circles.length);
-        return this.circles.length > 0;
-    }
-
-    protected calculateACircle(sizeChoices: SizeChoice[]) {
-        const newCoordinates = this.getNewCoordinates();
-        if (!newCoordinates) {
-            return;
-        }
-        
-        const circleSize = this.pickNewCircleSize(newCoordinates.x, newCoordinates.y, sizeChoices);
-        if (circleSize) {
-            let randomColor = this.circleColorSpecs[this.pickCircleColor(newCoordinates.x, newCoordinates.y) as string] as any; 
-            randomColor = { ...randomColor, alpha: this.calculateAlpha(newCoordinates.distanceFromCenter) };
-            const circle = new CircleWithPolarData(newCoordinates.x, newCoordinates.y, circleSize, randomColor, newCoordinates.distanceFromCenter, newCoordinates.angle);
-            this.addCircle(circle);
-        }
+        return false;
     }
 
     calculateAlpha(distanceFromCenter: number): number {

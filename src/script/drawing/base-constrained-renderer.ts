@@ -10,7 +10,14 @@ export abstract class BaseConstrainedRenderer {
     
     abstract calculateInitial(): void;
 
-    calculateAnimationFrame(): void {}
+    /**
+     * Calulates the next set of animation changes.
+     * @returns (boolean) true if the animation is still running (i.e. this method should be called again), 
+     * false if all done.
+     */ 
+    calculateAnimationFrame(): boolean {
+        return true;
+    }
 
     render(): void {
         this.circles.forEach((c) => this.drawingMechanics.drawCircleObject(c));
