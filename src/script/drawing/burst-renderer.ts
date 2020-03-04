@@ -31,13 +31,12 @@ export class BurstRenderer extends HaloRenderer {
 
         this.circles.forEach((c) => {
             const circle = (c as CircleWithPolarData);
-            circle.moveOutFromCenter(1);
+            circle.moveOutFromCenter(2);
             if (this.drawingMechanics.areCoordinatesOutOfBounds(circle.centerX, circle.centerY)) {
                 circle.markedForRemoval = true;
             }
         });
 
-        //console.log("calculateAnimationFrame", this.circles.length);
         return this.circles.length > 0;
     }
 
