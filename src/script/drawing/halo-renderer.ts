@@ -48,7 +48,7 @@ export class HaloRenderer extends BaseConstrainedRenderer {
                 const currentAlpha = cSpec.alpha || 0;
                 //@ts-ignore
                 if (currentAlpha < c.colorTarget?.alpha) {
-                    c.color = { ...cSpec, alpha: currentAlpha + .01 }
+                    c.color = { ...cSpec, alpha: currentAlpha + .02 }
                 } else {
                     c.animationComplete = true;
                 }

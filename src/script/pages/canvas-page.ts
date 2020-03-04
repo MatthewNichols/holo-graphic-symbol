@@ -37,7 +37,7 @@ if (context1) {
     const burst = new BurstRenderer(500, 500, haloCircleSizes, circleColors, drawingMechanics, 215, 75);
     const mark = new MarkRender(500, 500, drawingMechanics, 200);
 
-    //window.renderers = { mainCircle, halo, burst, mark }
+    window.renderers = { mainCircle, halo, burst, mark }
 
     function renderAll() {
         drawingMechanics.clear();
