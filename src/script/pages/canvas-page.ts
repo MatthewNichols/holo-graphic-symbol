@@ -22,7 +22,7 @@ const haloCircleSizes: SizeChoice[] = [
 
 const circleColors = ["#1497A2", "#4A3B8E", "#1577B2"];
 
-var canvas1 = document.getElementById("circles-1") as HTMLCanvasElement;
+var canvas1 = document.getElementById("holo-burst") as HTMLCanvasElement;
 const palletteSize = 1000;
 // Set Canvas dimensions
 canvas1.width = palletteSize;
