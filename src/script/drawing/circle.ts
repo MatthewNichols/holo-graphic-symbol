@@ -1,5 +1,5 @@
 export class Circle implements ICircle {
-    constructor(public centerX: number, public centerY: number, public radius: number, public color: ColorSpec = "") {
+    constructor(public centerX: number, public centerY: number, public radius: number, public color: ColorSpec | string = "") {
     }
 
     markedForRemoval = false;

@@ -2,7 +2,7 @@
 type XYCoordinates = {x: number, y: number };
 type CoordinatesTestFunction = (coordinates: XYCoordinates) => boolean;
 type SizeChoice = { size: number, weight: number };
-type ColorSpec = string | { r: number, g: number, b: number, alpha?: number };
+type ColorSpec = { r: number, g: number, b: number, alpha?: number };
 
 interface IDrawingMechanics {
     clear(): void;
@@ -15,7 +15,7 @@ interface ICircle {
     centerX: number;
     centerY: number;
     radius: number;
-    color: ColorSpec;
+    color: ColorSpec | string;
     markedForRemoval: boolean;
 
     willCollideWith(otherCircle: ICircle): boolean;

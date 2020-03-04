@@ -1,4 +1,20 @@
 import { BaseConstrainedRenderer } from "./base-constrained-renderer";
+import { Circle } from "./circle";
+
+class CircleWithColorAnimationData extends Circle {
+    constructor(centerX: number, centerY: number, radius: number, color: ColorSpec | string = "") {
+        super(centerX, centerY, radius, color);
+
+        if (typeof color !== "string") {
+            this.colorTarget = color;
+            this.color = { ...color, alpha: 0 }
+        }
+
+    }
+
+    colorTarget: ColorSpec | null = null;
+    animationComplete: boolean = false;
+}
 
 export class HaloRenderer extends BaseConstrainedRenderer {
     constructor(centerX: number, centerY: number, circleRadii: SizeChoice[], circleColors: string[], 
@@ -24,7 +40,21 @@ export class HaloRenderer extends BaseConstrainedRenderer {
     }
     
     calculateAnimationFrame(): boolean {
-        return false;
+        const circlesWithAnimationData = this.circles as CircleWithColorAnimationData[];
+        circlesWithAnimationData
+            .filter((c) => !c.animationComplete)
+            .forEach((c) => {
+                var cSpec = c.color as ColorSpec;
+                const currentAlpha = cSpec.alpha || 0;
+                //@ts-ignore
+                if (currentAlpha < c.colorTarget?.alpha) {
+                    c.color = { ...cSpec, alpha: currentAlpha + .01 }
+                } else {
+                    c.animationComplete = true;
+                }
+        });
+
+        return circlesWithAnimationData.some((c) => !c.animationComplete);
     }
 
     calculateAlpha(distanceFromCenter: number): number {
@@ -37,7 +67,7 @@ export class HaloRenderer extends BaseConstrainedRenderer {
             r: parseInt(result[1], 16),
             g: parseInt(result[2], 16),
             b: parseInt(result[3], 16)
-        } : "";
+        } : { r: 0, g: 0, b: 0, alpha: 0};
     }
 
     getNewCoordinates() {
@@ -55,5 +85,20 @@ export class HaloRenderer extends BaseConstrainedRenderer {
             distanceFromCenter: randomDistanceFromCenter,
             angle: randomAngle
         };
+    }
+
+    protected calculateACircle(sizeChoices: SizeChoice[]) {
+        const newCoordinates = this.getNewCoordinates();
+        if (!newCoordinates) {
+            return;
+        }
+        
+        const circleSize = this.pickNewCircleSize(newCoordinates.x, newCoordinates.y, sizeChoices);
+        if (circleSize) {
+            let randomColor = this.circleColorSpecs[this.pickCircleColor(newCoordinates.x, newCoordinates.y) as string] as any; 
+            randomColor = { ...randomColor, alpha: this.calculateAlpha(newCoordinates.distanceFromCenter) };
+            const circle = new CircleWithColorAnimationData(newCoordinates.x, newCoordinates.y, circleSize, randomColor);
+            this.addCircle(circle);
+        }
     }
 }

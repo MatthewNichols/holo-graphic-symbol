@@ -2,7 +2,7 @@ import { HaloRenderer } from "./halo-renderer";
 import { Circle } from "./circle";
 
 class CircleWithPolarData extends Circle {
-    constructor(centerX: number, centerY: number, radius: number, color: ColorSpec = "", public distanceFromCenter: number, public angle: number) {
+    constructor(centerX: number, centerY: number, radius: number, color: ColorSpec | string = "", public distanceFromCenter: number, public angle: number) {
         super(centerX, centerY, radius, color);
     }
 
