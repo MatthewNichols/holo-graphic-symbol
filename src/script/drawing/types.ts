@@ -4,6 +4,17 @@ type CoordinatesTestFunction = (coordinates: XYCoordinates) => boolean;
 type SizeChoice = { size: number, weight: number };
 type ColorSpec = { r: number, g: number, b: number, alpha?: number };
 
+type HoloDesignRendererConfig = {
+    center: XYCoordinates,
+    circleRadius: number,
+    gapToHalo: number,
+    haloThickness: number,
+    burstThickness: number,
+    mainCircleSizes: SizeChoice[], 
+    haloCircleSizes: SizeChoice[], 
+    circleColors: string[]
+}
+
 interface IDrawingMechanics {
     clear(): void;
     drawCircleObject(circle: ICircle): void;
