@@ -33,11 +33,11 @@ export class BurstRenderer extends HaloRenderer {
             const circle = (c as CircleWithPolarData);
             circle.moveOutFromCenter(2);
 
-            var cSpec = circle.color as ColorSpec;
-            const currentAlpha = cSpec.alpha || 0;
-            cSpec.alpha = currentAlpha - (currentAlpha * 0.03);
+            // var cSpec = circle.color as ColorSpec;
+            // const currentAlpha = cSpec.alpha || 0;
+            // cSpec.alpha = currentAlpha - (currentAlpha * 0.005);
 
-            if (currentAlpha < 0.05 || this.drawingMechanics.areCoordinatesOutOfBounds(circle.centerX, circle.centerY)) {
+            if (this.drawingMechanics.areCoordinatesOutOfBounds(circle.centerX, circle.centerY)) {
                 circle.markedForRemoval = true;
             }
         });
