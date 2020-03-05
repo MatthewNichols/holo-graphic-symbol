@@ -7,6 +7,6 @@ export class MarkRender {
         const xOffset = (this.centerX - this.radius / 2) - 50; //- the fudge factor. Fix later
         const yOffset = (this.centerY - this.radius / 2) - 10; //- the fudge factor. Fix later
         const initialMoveCommand = `M${xOffset},${yOffset}`;
-        this.drawingMechanics.drawSvgPath(initialMoveCommand + this.markPath, "white");
+        this.drawingMechanics.drawSvgPath(initialMoveCommand + this.markPath, "#000");
     }
 }
