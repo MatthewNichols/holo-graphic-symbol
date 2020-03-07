@@ -8,7 +8,7 @@
 <script lang="ts">
 import Vue from "vue";
 
-import { createDesignRenderer, render } from "../pages/canvas-page";
+import { createDesignRenderer, render, clearData } from "../pages/canvas-page";
 
 createDesignRenderer();
 render();
@@ -18,6 +18,7 @@ export default Vue.extend({
   methods: {
     rerunClick() {
       console.log("rerun");
+      clearData();
       render();
       console.log("done")
     }

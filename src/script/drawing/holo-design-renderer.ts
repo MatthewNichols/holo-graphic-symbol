@@ -20,7 +20,10 @@ export class HoloDesignRenderer {
     burst: BurstRenderer;
     mark: MarkRender;
 
+    private animationFrameRequestId: number = 0;
+
     render() {
+        this.cancelRunningAnimation();
         this.drawingMechanics.clear();
         this.mainCircle.render();
         this.halo.render();
@@ -32,6 +35,12 @@ export class HoloDesignRenderer {
         this.mainCircle.calculateInitial();
         this.halo.calculateInitial();
         this.burst.calculateInitial();
+    }
+
+    clearData() : void {
+        this.mainCircle.clearData();
+        this.halo.clearData();
+        this.burst.clearData();
     }
 
     animate() {
@@ -59,13 +68,19 @@ export class HoloDesignRenderer {
 
             lastTimestamp = timestamp;
             if (continueAnimation) {
-                window.requestAnimationFrame(animationLoop);
+                this.animationFrameRequestId = window.requestAnimationFrame(animationLoop);
             } else {
                 console.log("animation complete");
             }
         }
 
-        window.requestAnimationFrame(animationLoop);
+        this.animationFrameRequestId = window.requestAnimationFrame(animationLoop);
+    }
+
+    cancelRunningAnimation() {
+        if (this.animationFrameRequestId) {
+            window.cancelAnimationFrame(this.animationFrameRequestId);
+        }
     }
 
     injectDebug() {

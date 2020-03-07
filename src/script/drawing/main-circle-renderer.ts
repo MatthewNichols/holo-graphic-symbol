@@ -11,7 +11,6 @@ export class CircleConstrainedRender extends BaseConstrainedRenderer {
     diameter: number;
 
     calculateInitial() {
-        // then with all the sizes
         for (var i = 0; i < 5000; i++) {
             this.calculateACircle(this.circleRadii);
         }

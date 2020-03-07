@@ -10,6 +10,9 @@ export abstract class BaseConstrainedRenderer {
     
     abstract calculateInitial(): void;
 
+    clearData() {
+        this.circles = [];
+    }
     /**
      * Calulates the next set of animation changes.
      * @returns (boolean) true if the animation is still running (i.e. this method should be called again), 

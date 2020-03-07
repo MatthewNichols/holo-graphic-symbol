@@ -60,3 +60,7 @@ export const render = () => {
 
     holoDesign.animate();
 };
+
+export const clearData = () => {
+    holoDesign.clearData();
+}
