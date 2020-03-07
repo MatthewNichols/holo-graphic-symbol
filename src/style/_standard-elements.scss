@@ -1,0 +1,6 @@
+@mixin button-base($background: none) {
+    padding: 10px 15px;
+    background: $background;
+    border: none;
+    font-size: 16px;
+}

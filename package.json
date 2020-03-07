@@ -18,9 +18,9 @@
   },
   "homepage": "https://github.com/MatthewNichols/holo-graphic-symbol#readme",
   "dependencies": {
+    "scripts": "^0.1.0",
     "vue": "^2.6.11",
-    "vue-hot-reload-api": "^2.3.4",
-    "vuetify": "^2.2.15"
+    "vue-hot-reload-api": "^2.3.4"
   },
   "devDependencies": {
     "@vue/component-compiler-utils": "^3.1.1",
