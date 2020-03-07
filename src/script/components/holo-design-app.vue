@@ -8,9 +8,10 @@
 <script lang="ts">
 import Vue from "vue";
 
-import { createDesignRenderer, render, clearData } from "../pages/canvas-page";
+import { createDesignRenderer, render, clearData, getConfig } from "../pages/canvas-page";
 
-createDesignRenderer();
+const config = getConfig();
+createDesignRenderer(config);
 render();
 
 export default Vue.extend({
