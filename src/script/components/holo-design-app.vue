@@ -1,27 +1,35 @@
 <template>
     <div class="container">
-
+      <input type="number" v-model.number="config.circleRadius" >
       <button @click="rerunClick">Rerun</button>
     </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import { cloneDeep } from "lodash";
 
 import { createDesignRenderer, render, clearData, getConfig } from "../drawing/holo-design-setup";
 
-const config = getConfig();
-createDesignRenderer(config);
-render();
+//If the animation runs against Vue's reactive copy then it runs slowly. Do a deep clone to strip out the reactivity for rendering
+const createPlainCopyOfReactiveConfig = (reactiveConfig: any) => cloneDeep(reactiveConfig); 
 
 export default Vue.extend({
   name: 'ControlPanelApp',
+  data() {
+    return { config: getConfig() } 
+  },
+  created() {
+    createDesignRenderer(createPlainCopyOfReactiveConfig(this.config));
+    render();
+  },
   methods: {
     rerunClick() {
-      console.log("rerun");
+      console.log("rerun", createPlainCopyOfReactiveConfig(this.config));
+      createDesignRenderer(createPlainCopyOfReactiveConfig(this.config));
       clearData();
       render();
-      console.log("done")
+      console.log("rerun done")
     }
   }
 });
