@@ -32,6 +32,11 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .range-input {
     display: flex;
+    margin-bottom: 20px;
+
+    input[type="range"] {
+        width: 240px;
+    }
 
     .input-value {
         align-self: flex-end;

@@ -1,7 +1,14 @@
 <template>
     <div class="container">
       <numeric-range-input v-model.number="config.circleRadius" :min="50" :max="400" >Circle Radius</numeric-range-input>
-      <button @click="rerunClick">Rerun</button>
+      <numeric-range-input v-model.number="config.haloThickness" :min="0" :max="300" >Halo Thickness</numeric-range-input>
+      <numeric-range-input v-model.number="config.burstThickness" :min="0" :max="300" >Burst Thickness</numeric-range-input>
+      <numeric-range-input v-model.number="config.gapToHalo" :min="0" :max="300" >Gap between Circle and Halo</numeric-range-input>
+
+
+      <footer>
+        <button class="run" @click="rerunClick">Rerun</button>
+      </footer>
     </div>
 </template>
 
@@ -41,6 +48,7 @@ export default Vue.extend({
 @import "../../style/standard-elements";
 
 .container {
+    position: relative;
     box-sizing: border-box;
     background-color: #a2a2a2;
     width: 100%;
@@ -50,8 +58,15 @@ export default Vue.extend({
     box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
 }
 
-button {
-  @include button-base(rgba(#1497A2, 0.5));
+footer {
+  display: flex;
+    button {
+      @include button-base(rgba(#1497A2, 0.5));
+
+      &.run {
+        margin-left: auto;
+      }
+    }
 }
 
 </style>
