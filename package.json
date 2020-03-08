@@ -6,7 +6,8 @@
   "scripts": {
     "start": "parcel src/index.html src/canvas.html",
     "build": "parcel build src/*.html",
-    "build-smaller": "parcel build src/*.html --experimental-scope-hoisting"
+    "build-smaller": "parcel build src/*.html --experimental-scope-hoisting",
+    "run-build": "npx http-server ./dist"
   },
   "repository": {
     "type": "git",
