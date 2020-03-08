@@ -1,4 +1,4 @@
-import { HoloDesignRenderer } from "../drawing/holo-design-renderer";
+import { HoloDesignRenderer } from "./holo-design-renderer";
 
 var holoDesign: HoloDesignRenderer;
 

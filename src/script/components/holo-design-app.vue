@@ -1,14 +1,14 @@
 <template>
     <div class="container">
-      <button @click="rerunClick">Rerun</button>
 
+      <button @click="rerunClick">Rerun</button>
     </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 
-import { createDesignRenderer, render, clearData, getConfig } from "../pages/canvas-page";
+import { createDesignRenderer, render, clearData, getConfig } from "../drawing/holo-design-setup";
 
 const config = getConfig();
 createDesignRenderer(config);
@@ -42,9 +42,6 @@ export default Vue.extend({
 
 button {
   @include button-base(rgba(#1497A2, 0.5));
-  
-
-
 }
 
 </style>
