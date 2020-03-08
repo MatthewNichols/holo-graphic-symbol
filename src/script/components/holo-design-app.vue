@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { cloneDeep } from "lodash";
+import { cloneDeep } from "lodash-es";
 
 import { createDesignRenderer, render, clearData, getConfig } from "../drawing/holo-design-setup";
 
