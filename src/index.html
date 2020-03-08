@@ -10,6 +10,14 @@
 <body>
     <canvas id="holo-burst"></canvas>
 
+    <script>
+        if (!Object.assign) {
+            console.log("This browser is not supported.");
+            document.write("While HTML Canvas can be made to work in many older browsers this demo is not supporting it.<br/> Please try in Firefox, Edge or Chrome, or probably anything new-ish.")
+        }
+    
+    </script>
+
     <p class="blurb">
         I have a lot of friends at <a href="https://holo.host/">Holo</a> / <a href="https://holochain.org/">Holochain</a> and I saw one of the designs on their site and got inspired 
         to practice some new skills with <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API">HTML Canvas</a>
@@ -18,7 +26,6 @@
 
     <div id="control-panel"></div>
 
-    <!--<script src="script/pages/canvas-page.ts"></script>-->
     <script src="script/pages/index.ts"></script>
 </body>
 </html>
