@@ -22,3 +22,9 @@ export default Vue.extend({
     }
 })
 </script>
+
+<style lang="scss" scoped>
+h3 {
+    margin-top: 0;
+}
+</style>

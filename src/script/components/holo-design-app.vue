@@ -1,6 +1,7 @@
 <template>
     <div class="container">
-      <div class="column-1">        
+      <div class="column-1">
+        <h3>Display Dimensions</h3>        
         <numeric-range-input v-model.number="config.circleRadius" :min="50" :max="400" >Circle Radius</numeric-range-input>
         <numeric-range-input v-model.number="config.haloThickness" :min="0" :max="300" >Halo Thickness</numeric-range-input>
         <numeric-range-input v-model.number="config.burstThickness" :min="0" :max="300" >Burst Thickness</numeric-range-input>
@@ -70,6 +71,10 @@ export default Vue.extend({
 
   .column-1 {
     grid-area: col-1;
+
+    h3 {
+      margin-top: 0;
+    }
   }
   
   .column-2 {
