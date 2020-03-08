@@ -8,7 +8,7 @@
       </div>
 
       <div class="column-2">
-        Circle colors here
+        <circle-colors-input v-model="config.circleColors"></circle-colors-input>
       </div>
 
       <footer>
@@ -23,6 +23,7 @@ import { cloneDeep } from "lodash-es";
 
 import { createDesignRenderer, render, clearData, getConfig } from "../drawing/holo-design-setup";
 import NumericRangeInput from "./numeric-range-input.vue";
+import CircleColorsInput from "./circle-colors-input.vue";
 
 //If the animation runs against Vue's reactive copy then it runs slowly. Do a deep clone to strip out the reactivity for rendering
 const createPlainCopyOfReactiveConfig = (reactiveConfig: any) => cloneDeep(reactiveConfig); 
@@ -32,7 +33,7 @@ export default Vue.extend({
   data() {
     return { config: getConfig() } 
   },
-  components: { NumericRangeInput },
+  components: { NumericRangeInput, CircleColorsInput },
   created() {
     createDesignRenderer(createPlainCopyOfReactiveConfig(this.config));
     render();
