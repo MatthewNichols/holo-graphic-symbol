@@ -58,7 +58,8 @@ export default Vue.extend({
 @import "../../style/standard-elements";
 
 h3 {
-    margin-top: 0;
+    margin: 0;
+    margin-bottom: 5px;
 }
 
 .circle-colors {

@@ -72,8 +72,8 @@ export default Vue.extend({
 
     display: grid;
     grid: [row1-start] "col-1 col-2 col-3" 1fr [row1-end]
-          [row2-start] "footer footer footer" 40px [row2-end]
-          / auto auto auto;
+          [row2-start] "footer footer footer" auto [row2-end]
+          / 300px auto 250px;
 
   .column-1 {
     grid-area: col-1;
@@ -85,25 +85,27 @@ export default Vue.extend({
   
   .column-2 {
     grid-area: col-2;
-    padding: 5px;
+    padding: 0 5px;
   }
 
   .column-3 {
     grid-area: col-3;
-    padding: 5px;
+    padding: 0 5px;
   }
 
 
   footer {
     grid-area: footer;
     display: flex;
-      button {
-        @include button-base(rgba(#1497A2, 0.5));
+    padding: 5px;
 
-        &.run {
-          margin-left: auto;
-        }
+    button {
+      @include button-base(rgba(#1497A2, 0.5));
+
+      &.run {
+        margin-left: auto;
       }
+    }
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="circle-colors">
         <h3>
             <slot>Circle Sizes</slot>
         </h3>
@@ -25,5 +25,12 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+.circle-colors {
+    margin-bottom: 10px;
 
+    h3 {
+        margin: 0;
+        margin-bottom: 5px;
+    }
+}
 </style>

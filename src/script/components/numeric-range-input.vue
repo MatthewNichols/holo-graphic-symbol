@@ -32,21 +32,29 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .range-input {
     display: flex;
-    margin-bottom: 20px;
+    margin-bottom: 8px;
+
+    label {
+        display: flex;
+        flex-direction: column;
+        width: calc(100% - 45px);
+    }
 
     input[type="range"] {
-        width: 240px;
+        margin-right: 5px;
     }
 
     .input-value {
         align-self: flex-end;
         padding: 4px 0;
-        margin-left: 4px;
+        box-sizing: border-box;
+        margin-left: auto;
         border: 1px solid #555;
         box-shadow: 1px 1px 5px #555 inset;
         color: #555;
         width: 40px;
         text-align: center;
+        flex-shrink: 0;
     }
 }
 </style>
