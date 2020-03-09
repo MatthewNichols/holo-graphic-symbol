@@ -5,6 +5,8 @@
                            :color="color" 
                            @updateValue="updateValue" 
                            @removeItem="removeItem"></circle-color-item>
+        
+        <button @click="addNewColor">Add New Color</button>
     </div>
 </template>
 
@@ -12,6 +14,14 @@
 import Vue from 'vue'
 
 import CircleColorItem from './circle-color-item.vue'
+
+function getRandomColor() {
+  function c() {
+    var hex = Math.floor(Math.random()*256).toString(16);
+    return ("0"+String(hex)).substr(-2); // pad with zero
+  }
+  return "#"+c()+c()+c();
+}
 
 export default Vue.extend({
     name: "CircleColorsInput",
@@ -32,14 +42,26 @@ export default Vue.extend({
             const currentColors = this.value;
             const newColors = currentColors.filter((color) => color !== colorToRemove);
             this.$emit("input", newColors);
+        },
+        addNewColor() {
+            const newColor = getRandomColor();
+            const newColors = [...this.value, newColor];
+            this.$emit("input", newColors);
         }
     }
 })
 </script>
 
 <style lang="scss" scoped>
+@import "../../style/standard-elements";
 
 h3 {
     margin-top: 0;
+}
+
+button {
+    @include button-base();
+    margin-top: 4px;
+    border: 2px solid scale-color($color: #a2a2a2, $lightness: -30%);
 }
 </style>
