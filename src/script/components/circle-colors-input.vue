@@ -1,11 +1,13 @@
 <template>
-    <div class="circle-colors">
+    <div>
         <h3>Circle Colors</h3>
-        <circle-color-item v-for="(color, index) in value" v-bind:key="index" 
-                           :color="color" 
-                           @updateValue="updateValue" 
-                           @removeItem="removeItem"></circle-color-item>
-        
+        <div  class="circle-colors">
+            <circle-color-item  v-for="(color, index) in value" v-bind:key="index" 
+                            :color="color" 
+                            @updateValue="updateValue" 
+                            @removeItem="removeItem"></circle-color-item>
+            
+        </div>
         <button @click="addNewColor">Add New Color</button>
     </div>
 </template>
@@ -59,9 +61,15 @@ h3 {
     margin-top: 0;
 }
 
+.circle-colors {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 button {
     @include button-base();
     margin-top: 4px;
+    margin-left: 8px;
     border: 2px solid scale-color($color: #a2a2a2, $lightness: -30%);
 }
 </style>

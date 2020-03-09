@@ -34,8 +34,18 @@ export default Vue.extend({
 @import "../../style/standard-elements";
 
 .circle-colors-item {
+    box-sizing: border-box;
+    margin: 2px;
+    padding: 0 4px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
+    border: 1px solid #a2a2a2;
+    
+    &:hover {
+        border: 1px solid scale-color($color: #a2a2a2, $lightness: -30%);
+        background-color: scale-color($color: #a2a2a2, $lightness: -10%);
+    }
 
     input[type="color"] {
         height: 44px;
@@ -44,7 +54,10 @@ export default Vue.extend({
     button {
         @include button-base();
         padding: 5px;
-        margin-left: 10px;
+        margin: 10px 5px 10px 10px;
+        border: 1px solid #a2a2a2;
+        outline: none;
+        
         &:hover {
             border-radius: 100px;
             border: 1px solid scale-color($color: #a2a2a2, $lightness: -30%);
