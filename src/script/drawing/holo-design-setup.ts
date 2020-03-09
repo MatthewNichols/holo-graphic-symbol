@@ -5,17 +5,17 @@ var holoDesign: HoloDesignRenderer;
 export const getConfig = (): HoloDesignRendererConfig => {
         const scalingFactor = 400 / 912; 
         const mainCircleSizes: SizeChoice[] = [
-            { size: 17, weight: 1 },
-            { size: 12, weight: 1 },
-            { size: 8, weight: 1.25 },
-            { size: 5, weight: 1.25 },
+            { size: 17, weight: 10 },
+            { size: 12, weight: 10 },
+            { size: 8, weight: 12 },
+            { size: 5, weight: 12 },
         ];
         
         const haloCircleSizes: SizeChoice[] = [
-            { size: 10, weight: 0.6 },
-            { size: 8, weight: 1.5 },
-            { size: 5, weight: 2.5 },
-            { size: 3, weight: 2.5 }
+            { size: 10, weight: 6 },
+            { size: 8, weight: 15 },
+            { size: 5, weight: 25 },
+            { size: 3, weight: 25 }
         ];
             
         const config: HoloDesignRendererConfig = {

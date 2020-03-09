@@ -12,6 +12,11 @@
         <circle-colors-input v-model="config.circleColors"></circle-colors-input>
       </div>
 
+      <div class="column-3">
+        <circle-sizes :sizes="config.mainCircleSizes">Main Circle Sizes</circle-sizes>
+        <circle-sizes :sizes="config.haloCircleSizes">Halo Circle Sizes</circle-sizes>
+      </div>
+
       <footer>
         <button class="run" @click="rerunClick">Rerun</button>
       </footer>
@@ -25,6 +30,7 @@ import { cloneDeep } from "lodash-es";
 import { createDesignRenderer, render, clearData, getConfig } from "../drawing/holo-design-setup";
 import NumericRangeInput from "./numeric-range-input.vue";
 import CircleColorsInput from "./circle-colors-input.vue";
+import CircleSizes from "./circle-sizes.vue";
 
 //If the animation runs against Vue's reactive copy then it runs slowly. Do a deep clone to strip out the reactivity for rendering
 const createPlainCopyOfReactiveConfig = (reactiveConfig: any) => cloneDeep(reactiveConfig); 
@@ -34,7 +40,7 @@ export default Vue.extend({
   data() {
     return { config: getConfig() } 
   },
-  components: { NumericRangeInput, CircleColorsInput },
+  components: { NumericRangeInput, CircleColorsInput, CircleSizes },
   created() {
     createDesignRenderer(createPlainCopyOfReactiveConfig(this.config));
     render();
@@ -65,9 +71,9 @@ export default Vue.extend({
     box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
 
     display: grid;
-    grid: [row1-start] "col-1 col-2" 1fr [row1-end]
-          [row2-start] "footer footer" 40px [row2-end]
-          / auto auto;
+    grid: [row1-start] "col-1 col-2 col-3" 1fr [row1-end]
+          [row2-start] "footer footer footer" 40px [row2-end]
+          / auto auto auto;
 
   .column-1 {
     grid-area: col-1;
@@ -79,6 +85,12 @@ export default Vue.extend({
   
   .column-2 {
     grid-area: col-2;
+    padding: 5px;
+  }
+
+  .column-3 {
+    grid-area: col-3;
+    padding: 5px;
   }
 
 
