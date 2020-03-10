@@ -1,6 +1,7 @@
 <template>
     <div class="container">
       <header>
+        <button class="reset" @click="resetClick">Reset</button>
         <button class="run" @click="rerunClick">Rerun</button>
       </header>
 
@@ -46,6 +47,7 @@
       </div>
 
       <footer>
+        <button class="reset" @click="resetClick">Reset</button>
         <button class="run" @click="rerunClick">Rerun</button>
       </footer>
     </div>
@@ -75,11 +77,12 @@ export default Vue.extend({
   },
   methods: {
     rerunClick() {
-      console.log("rerun", createPlainCopyOfReactiveConfig(this.config));
       createDesignRenderer(createPlainCopyOfReactiveConfig(this.config));
       clearData();
       render();
-      console.log("rerun done")
+    },
+    resetClick() {
+      this.config = getConfig();
     }
   }
 });
@@ -142,7 +145,7 @@ export default Vue.extend({
 
   footer, header {
     display: flex;
-    padding: 5px;
+    padding: 5px 0 15px 0;
 
     button {
       @include button-base(rgba(#1497A2, 0.5));
