@@ -15,7 +15,9 @@ type HoloDesignRendererConfig = {
     circleColors: string[],
     mainCircleNumberOfAttempts: number,
     haloNumberOfAttempts: number,
-    burstNumberOfAttempts: number
+    burstNumberOfAttempts: number,
+    canvasBackgroundColor: string,
+    logoColor: string
 }
 
 interface IDrawingMechanics {

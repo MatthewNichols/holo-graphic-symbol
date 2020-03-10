@@ -29,7 +29,9 @@ export const getConfig = (): HoloDesignRendererConfig => {
             circleColors: ["#1497A2", "#4A3B8E", "#1577B2"],
             mainCircleNumberOfAttempts: 5000,
             haloNumberOfAttempts: 1600,
-            burstNumberOfAttempts: 1600
+            burstNumberOfAttempts: 1600,
+            canvasBackgroundColor: "#000",
+            logoColor: "#000"
         };
 
         return config;
