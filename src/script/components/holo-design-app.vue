@@ -13,6 +13,14 @@
         <numeric-range-input v-model.number="config.haloThickness" :min="0" :max="300" >Halo Thickness</numeric-range-input>
         <numeric-range-input v-model.number="config.burstThickness" :min="0" :max="300" >Burst Thickness</numeric-range-input>
         <numeric-range-input v-model.number="config.gapToHalo" :min="0" :max="300" >Gap between Circle and Halo</numeric-range-input>
+        
+        <h3>
+          Number of Drawing attempts 
+        </h3>        
+        <p>How many random placements of circles are attempted in each part of the drawing? Overlaps are not allowed so some fail. As will be clear this has an impact on performance.</p>
+        <numeric-range-input v-model.number="config.mainCircleNumberOfAttempts" :min="0" :max="10000" >Circle</numeric-range-input>
+        <numeric-range-input v-model.number="config.haloNumberOfAttempts" :min="0" :max="10000" >Halo</numeric-range-input>
+        <numeric-range-input v-model.number="config.burstNumberOfAttempts" :min="0" :max="10000" >Burst</numeric-range-input>
       </div>
 
       <div class="column-2">
