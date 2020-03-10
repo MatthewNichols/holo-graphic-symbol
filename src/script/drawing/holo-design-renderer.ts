@@ -6,11 +6,12 @@ import { CanvasDrawingMechanics } from "./canvas-drawing-mechanics";
 
 export class HoloDesignRenderer {
     constructor(context: CanvasRenderingContext2D, config: HoloDesignRendererConfig) {
-        const { center, circleRadius, gapToHalo, haloThickness, burstThickness, mainCircleSizes, haloCircleSizes, circleColors } = config;
+        const { center, circleRadius, gapToHalo, haloThickness, burstThickness, mainCircleSizes, haloCircleSizes, 
+            circleColors, mainCircleNumberOfAttempts, haloNumberOfAttempts, burstNumberOfAttempts } = config;
         this.drawingMechanics = new CanvasDrawingMechanics(context);
-        this.mainCircle = new CircleConstrainedRender(center.x, center.y, mainCircleSizes, circleColors, this.drawingMechanics, circleRadius);
-        this.halo = new HaloRenderer(center.x, center.y, haloCircleSizes, circleColors, this.drawingMechanics, circleRadius + gapToHalo, haloThickness);
-        this.burst = new BurstRenderer(center.x, center.y, haloCircleSizes, circleColors, this.drawingMechanics, circleRadius + gapToHalo, burstThickness);
+        this.mainCircle = new CircleConstrainedRender(center.x, center.y, mainCircleSizes, circleColors, this.drawingMechanics, circleRadius, mainCircleNumberOfAttempts);
+        this.halo = new HaloRenderer(center.x, center.y, haloCircleSizes, circleColors, this.drawingMechanics, circleRadius + gapToHalo, haloThickness, haloNumberOfAttempts);
+        this.burst = new BurstRenderer(center.x, center.y, haloCircleSizes, circleColors, this.drawingMechanics, circleRadius + gapToHalo, burstThickness, burstNumberOfAttempts);
         this.mark = new MarkRender(center.x, center.y, this.drawingMechanics, 200);
     }
 

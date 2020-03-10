@@ -12,7 +12,10 @@ type HoloDesignRendererConfig = {
     burstThickness: number,
     mainCircleSizes: SizeChoice[], 
     haloCircleSizes: SizeChoice[], 
-    circleColors: string[]
+    circleColors: string[],
+    mainCircleNumberOfAttempts: number,
+    haloNumberOfAttempts: number,
+    burstNumberOfAttempts: number
 }
 
 interface IDrawingMechanics {

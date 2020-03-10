@@ -18,7 +18,7 @@ class CircleWithColorAnimationData extends Circle {
 
 export class HaloRenderer extends BaseConstrainedRenderer {
     constructor(centerX: number, centerY: number, circleRadii: SizeChoice[], circleColors: string[], 
-            drawingMechanics: IDrawingMechanics, radius: number, public haloThickness: number) {
+            drawingMechanics: IDrawingMechanics, radius: number, public haloThickness: number, private numberOfCircleAttempts: number) {
         super(centerX, centerY, circleRadii, circleColors, drawingMechanics, radius);
 
         let circleColorSpecs: {[key: string]: ColorSpec} = {};
@@ -34,7 +34,7 @@ export class HaloRenderer extends BaseConstrainedRenderer {
 
     calculateInitial() {
         // Iterate to draw a lot of circles
-        for (var i = 0; i < 1600; i++) {
+        for (var i = 0; i < this.numberOfCircleAttempts; i++) {
             this.calculateACircle(this.circleRadii);
         }
     }

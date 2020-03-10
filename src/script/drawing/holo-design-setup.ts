@@ -26,7 +26,10 @@ export const getConfig = (): HoloDesignRendererConfig => {
             burstThickness: 75,
             mainCircleSizes,
             haloCircleSizes,
-            circleColors: ["#1497A2", "#4A3B8E", "#1577B2"]
+            circleColors: ["#1497A2", "#4A3B8E", "#1577B2"],
+            mainCircleNumberOfAttempts: 5000,
+            haloNumberOfAttempts: 1600,
+            burstNumberOfAttempts: 1600
         };
 
         return config;

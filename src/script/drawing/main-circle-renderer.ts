@@ -2,7 +2,7 @@ import { BaseConstrainedRenderer } from "./base-constrained-renderer";
 
 export class CircleConstrainedRender extends BaseConstrainedRenderer {
     constructor(centerX: number, centerY: number, circleRadii: SizeChoice[], circleColors: string[], 
-        drawingMechanics: IDrawingMechanics, radius: number) {
+        drawingMechanics: IDrawingMechanics, radius: number, private numberOfCircleAttempts: number) {
 
         super(centerX, centerY, circleRadii, circleColors, drawingMechanics, radius);
         this.diameter = radius * 2;
@@ -11,7 +11,7 @@ export class CircleConstrainedRender extends BaseConstrainedRenderer {
     diameter: number;
 
     calculateInitial() {
-        for (var i = 0; i < 5000; i++) {
+        for (var i = 0; i < this.numberOfCircleAttempts; i++) {
             this.calculateACircle(this.circleRadii);
         }
     }
