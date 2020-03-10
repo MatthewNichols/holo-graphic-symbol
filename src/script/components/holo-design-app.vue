@@ -1,7 +1,14 @@
 <template>
     <div class="container">
+      <header>
+        <button class="run" @click="rerunClick">Rerun</button>
+      </header>
+
       <div class="column-1">
-        <h3>Display Dimensions</h3>        
+        <h3>
+          Display Dimensions
+        </h3>        
+        
         <numeric-range-input v-model.number="config.circleRadius" :min="50" :max="400" >Circle Radius</numeric-range-input>
         <numeric-range-input v-model.number="config.haloThickness" :min="0" :max="300" >Halo Thickness</numeric-range-input>
         <numeric-range-input v-model.number="config.burstThickness" :min="0" :max="300" >Burst Thickness</numeric-range-input>
@@ -66,13 +73,14 @@ export default Vue.extend({
     background-color: #a2a2a2;
     width: 100%;
     max-width: 1000px;
-    padding: 20px;
+    padding: 10px 20px;
     border-radius: 10px;
     box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
 
     display: grid;
-    grid: [row1-start] "col-1 col-2 col-3" 1fr [row1-end]
-          [row2-start] "footer footer footer" auto [row2-end]
+    grid: [row1-start] "header header header" auto [row1-end]
+          [row2-start] "col-1 col-2 col-3" 1fr [row2-end]
+          [row3-start] "footer footer footer" auto [row3-end]
           / 300px auto 250px;
 
   .column-1 {
@@ -82,7 +90,11 @@ export default Vue.extend({
       margin-top: 0;
     }
   }
-  
+
+  header {
+      grid-area: header;
+  }
+
   .column-2 {
     grid-area: col-2;
     padding: 0 5px;
@@ -93,9 +105,11 @@ export default Vue.extend({
     padding: 0 5px;
   }
 
-
   footer {
-    grid-area: footer;
+      grid-area: footer;
+  }
+
+  footer, header {
     display: flex;
     padding: 5px;
 
