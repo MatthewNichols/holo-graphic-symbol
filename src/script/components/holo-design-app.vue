@@ -25,6 +25,19 @@
 
       <div class="column-2">
         <circle-colors-input v-model="config.circleColors"></circle-colors-input>
+
+        <h3>Other Colors</h3>
+        
+        <label>
+          Background:
+          <input type="color" v-model="config.canvasBackgroundColor">
+        </label>
+        
+        <label>
+          Logo:
+          <input type="color" v-model="config.logoColor">
+        </label>
+
       </div>
 
       <div class="column-3">
@@ -105,7 +118,17 @@ export default Vue.extend({
 
   .column-2 {
     grid-area: col-2;
-    padding: 0 5px;
+    padding: 0 25px;
+
+    label {
+      display: inline-flex;
+      align-items: center;
+      
+      input[type="color"] {
+          height: 44px;
+          margin: 0 8px;
+      }
+    }
   }
 
   .column-3 {
