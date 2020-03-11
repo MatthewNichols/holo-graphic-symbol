@@ -2,6 +2,7 @@
     <div class="container">
       <header>
         <button class="reset" @click="resetClick">Reset</button>
+        <div class="messageToUser" v-if="messageToUser" @click="cancelMessage">{{messageToUser}}</div>
         <button class="run" @click="rerunClick">Rerun</button>
       </header>
 
@@ -92,7 +93,11 @@ export default Vue.extend({
     },
     resetClick() {
       this.config = getConfig();
-      window.localStorage.removeItem("saved-config");
+      //Need to take this out of the flow so that it happens after the config watcher fires
+      setInterval(() => window.localStorage.removeItem("saved-config"));
+    },
+    cancelMessage() {
+      this.messageToUser = "";
     }
   },
   watch: {
@@ -137,6 +142,13 @@ export default Vue.extend({
 
   header {
       grid-area: header;
+
+      .messageToUser {
+        background-color: #fff;
+        padding: 4px 8px;
+        border-radius: 10px;
+        box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.75);
+      }
   }
 
   .column-2 {
@@ -165,14 +177,11 @@ export default Vue.extend({
 
   footer, header {
     display: flex;
+    justify-content: space-between;
     padding: 5px 0 15px 0;
 
     button {
       @include button-base(rgba(#1497A2, 0.5));
-
-      &.run {
-        margin-left: auto;
-      }
     }
   }
 }
