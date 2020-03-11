@@ -100,6 +100,7 @@ export default Vue.extend({
     padding: 10px 20px;
     border-radius: 10px;
     box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    margin-bottom: 40px;
 
     display: grid;
     grid: [row1-start] "header header header" auto [row1-end]
