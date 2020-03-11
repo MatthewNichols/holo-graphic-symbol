@@ -68,7 +68,16 @@ const createPlainCopyOfReactiveConfig = (reactiveConfig: any) => cloneDeep(react
 export default Vue.extend({
   name: 'ControlPanelApp',
   data() {
-    return { config: getConfig() } 
+    let messageToUser = "";
+    const savedConfigStr = window.localStorage.getItem("saved-config");
+    if (savedConfigStr) {
+      var savedConfig = JSON.parse(savedConfigStr);
+      messageToUser = "Your previous data is restored from localStorage. Click Reset if you want to start fresh."
+    }
+    return { 
+      config: savedConfig || getConfig(),
+      messageToUser
+    } 
   },
   components: { NumericRangeInput, CircleColorsInput, CircleSizes },
   created() {
@@ -83,6 +92,16 @@ export default Vue.extend({
     },
     resetClick() {
       this.config = getConfig();
+      window.localStorage.removeItem("saved-config");
+    }
+  },
+  watch: {
+    config: {
+      deep: true,
+
+      handler(newVal, oldVal) {
+        window.localStorage.setItem("saved-config", JSON.stringify(newVal));
+      }
     }
   }
 });
