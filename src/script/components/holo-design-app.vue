@@ -56,7 +56,6 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { cloneDeep } from "lodash-es";
 
 import { createDesignRenderer, render, clearData, getConfig } from "../drawing/holo-design-setup";
 import NumericRangeInput from "./numeric-range-input.vue";
@@ -64,7 +63,22 @@ import CircleColorsInput from "./circle-colors-input.vue";
 import CircleSizes from "./circle-sizes.vue";
 
 //If the animation runs against Vue's reactive copy then it runs slowly. Do a deep clone to strip out the reactivity for rendering
-const createPlainCopyOfReactiveConfig = (reactiveConfig: any) => cloneDeep(reactiveConfig); 
+const deepCopy = (inObject: any): any => {
+  //If simple value just return
+  if (typeof inObject !== "object" || inObject === null) {
+    return inObject;  
+  }
+
+  //prep the right kind of recepticle and iterate over the keys copying
+  let outObject: any = Array.isArray(inObject) ? [] : {};
+  for (const key in inObject) {
+    outObject[key] = deepCopy(inObject[key]);
+  }
+
+  return outObject;
+}
+ 
+const createPlainCopyOfReactiveConfig = (reactiveConfig: any) => deepCopy(reactiveConfig); 
 
 export default Vue.extend({
   name: 'ControlPanelApp',
@@ -103,8 +117,7 @@ export default Vue.extend({
   watch: {
     config: {
       deep: true,
-
-      handler(newVal, oldVal) {
+      handler(newVal) {
         window.localStorage.setItem("saved-config", JSON.stringify(newVal));
       }
     }
