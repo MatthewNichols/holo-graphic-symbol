@@ -25,6 +25,12 @@
         <numeric-range-input v-model.number="config.mainCircleNumberOfAttempts" :min="0" :max="10000" >Circle</numeric-range-input>
         <numeric-range-input v-model.number="config.haloNumberOfAttempts" :min="0" :max="10000" >Halo</numeric-range-input>
         <numeric-range-input v-model.number="config.burstNumberOfAttempts" :min="0" :max="10000" >Burst</numeric-range-input>
+
+        <h3>
+          Animation Settings 
+        </h3>
+        <numeric-range-input v-model.number="config.animationLoopFrameLength" :min="1" :max="1000" >Number of milliseconds between animation frames</numeric-range-input>
+        <numeric-range-input v-model.number="config.burstNumberPixelsMovePerFrame" :min="1" :max="100" >Number of pixels burst moves per animation frame</numeric-range-input>
       </div>
 
       <div class="column-2">

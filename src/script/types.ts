@@ -17,7 +17,13 @@ type HoloDesignRendererConfig = {
     haloNumberOfAttempts: number,
     burstNumberOfAttempts: number,
     canvasBackgroundColor: string,
-    logoColor: string
+    logoColor: string,
+
+    /**
+     * Number of milliseconds between animation frames 
+     */
+    animationLoopFrameLength: number,
+    burstNumberPixelsMovePerFrame: number 
 }
 
 interface IDrawingMechanics {

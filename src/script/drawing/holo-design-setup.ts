@@ -31,7 +31,9 @@ export const getConfig = (): HoloDesignRendererConfig => {
             haloNumberOfAttempts: 1600,
             burstNumberOfAttempts: 1600,
             canvasBackgroundColor: "#000",
-            logoColor: "#000"
+            logoColor: "#000",
+            animationLoopFrameLength: 20,
+            burstNumberPixelsMovePerFrame: 2
         };
 
         return config;

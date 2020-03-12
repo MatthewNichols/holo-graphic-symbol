@@ -25,13 +25,17 @@ class CircleWithPolarData extends Circle {
 }
 
 export class BurstRenderer extends HaloRenderer { 
+    constructor(centerX: number, centerY: number, circleRadii: SizeChoice[], circleColors: string[], 
+        drawingMechanics: IDrawingMechanics, radius: number, haloThickness: number, numberOfCircleAttempts: number, private numberPixelsMovePerFrame: number) {
+            super(centerX, centerY, circleRadii, circleColors, drawingMechanics, radius, haloThickness, numberOfCircleAttempts)
+    }
 
     calculateAnimationFrame(): boolean {
         this.circles = this.circles.filter((c) => ! c.markedForRemoval);
 
         this.circles.forEach((c) => {
             const circle = (c as CircleWithPolarData);
-            circle.moveOutFromCenter(2);
+            circle.moveOutFromCenter(this.numberPixelsMovePerFrame);
 
             // var cSpec = circle.color as ColorSpec;
             // const currentAlpha = cSpec.alpha || 0;

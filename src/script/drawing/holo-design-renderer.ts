@@ -7,12 +7,12 @@ import { CanvasDrawingMechanics } from "./canvas-drawing-mechanics";
 export class HoloDesignRenderer {
     constructor(context: CanvasRenderingContext2D, private config: HoloDesignRendererConfig) {
         const { center, circleRadius, gapToHalo, haloThickness, burstThickness, mainCircleSizes, haloCircleSizes, 
-            circleColors, mainCircleNumberOfAttempts, haloNumberOfAttempts, burstNumberOfAttempts, logoColor } = config;
+            circleColors, mainCircleNumberOfAttempts, haloNumberOfAttempts, burstNumberOfAttempts, logoColor, burstNumberPixelsMovePerFrame } = config;
         
         this.drawingMechanics = new CanvasDrawingMechanics(context);
         this.mainCircle = new CircleConstrainedRender(center.x, center.y, mainCircleSizes, circleColors, this.drawingMechanics, circleRadius, mainCircleNumberOfAttempts);
         this.halo = new HaloRenderer(center.x, center.y, haloCircleSizes, circleColors, this.drawingMechanics, circleRadius + gapToHalo, haloThickness, haloNumberOfAttempts);
-        this.burst = new BurstRenderer(center.x, center.y, haloCircleSizes, circleColors, this.drawingMechanics, circleRadius + gapToHalo, burstThickness, burstNumberOfAttempts);
+        this.burst = new BurstRenderer(center.x, center.y, haloCircleSizes, circleColors, this.drawingMechanics, circleRadius + gapToHalo, burstThickness, burstNumberOfAttempts, burstNumberPixelsMovePerFrame);
         this.mark = new MarkRender(center.x, center.y, this.drawingMechanics, 200, logoColor);
     }
 
@@ -56,7 +56,7 @@ export class HoloDesignRenderer {
             
             tickCountdown = tickCountdown - timeSinceLastCall;
             if (tickCountdown < 0) {
-                tickCountdown = 20 + tickCountdown;
+                tickCountdown = this.config.animationLoopFrameLength + tickCountdown;
 
                 if (burstContinue) {
                     burstContinue = this.burst.calculateAnimationFrame();
