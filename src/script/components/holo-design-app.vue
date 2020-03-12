@@ -2,7 +2,9 @@
     <div class="container">
       <header>
         <button class="reset" @click="resetClick">Reset</button>
-        <div class="messageToUser" v-if="messageToUser" @click="cancelMessage">{{messageToUser}}</div>
+        <transition name="fade">
+          <div class="messageToUser" v-if="messageToUser" @click="cancelMessage">{{messageToUser}}</div>
+        </transition>
         <button class="run" @click="rerunClick">Rerun</button>
       </header>
 
@@ -128,6 +130,13 @@ export default Vue.extend({
 <style lang="scss" scoped>
 @import "../../style/standard-elements";
 
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
 .container {
     position: relative;
     box-sizing: border-box;
@@ -138,6 +147,7 @@ export default Vue.extend({
     border-radius: 10px;
     box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
     margin-bottom: 40px;
+    margin-top: 40px;
 
     display: grid;
     grid: [row1-start] "header header header" auto [row1-end]
