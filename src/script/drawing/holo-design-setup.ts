@@ -1,4 +1,5 @@
 import { HoloDesignRenderer } from "./holo-design-renderer";
+import { CanvasDrawingMechanics } from "./canvas-drawing-mechanics";
 
 var holoDesign: HoloDesignRenderer;
 
@@ -37,35 +38,40 @@ export const getConfig = (): HoloDesignRendererConfig => {
         };
 
         return config;
-}
-;
-export const createDesignRenderer = (config: HoloDesignRendererConfig) => {
+};
 
-    var canvas1 = document.getElementById("holo-burst") as HTMLCanvasElement;
+const setupCanvasDrawingMechanics = () => {
+    var canvas1 = document.getElementById("holo-burst-canvas") as HTMLCanvasElement;
     const palletteSize = 1000;
     // Set Canvas dimensions
     canvas1.width = palletteSize;
     canvas1.height = palletteSize;
     // Get drawing context
     var context1 = canvas1.getContext('2d', { alpha: false });
-
-    if (context1) {
-        const scalingFactor = 400 / 912; 
-        const scalingFunction = (s: { size: number; weight: number; }): { size: number; weight: number; } => ({ size: s.size * scalingFactor, weight: s.weight });
-            
-        const scaledConfig: HoloDesignRendererConfig = {
-            ...config,
-            mainCircleSizes: config.mainCircleSizes.map(scalingFunction),
-            haloCircleSizes: config.haloCircleSizes.map(scalingFunction)
-        }
-
-        holoDesign = new HoloDesignRenderer(context1, scaledConfig);
-
-        console.log("created")
-
-    } else {
-        console.error("No Canvas context found");
+    if (context1) { 
+        const drawingMechanics = new CanvasDrawingMechanics(context1);
+        return drawingMechanics;
     }
+
+    console.error("No Canvas context found");
+    return null;
+}
+
+export const createDesignRenderer = (config: HoloDesignRendererConfig) => {
+    const scalingFactor = 400 / 912; 
+    const scalingFunction = (s: { size: number; weight: number; }): { size: number; weight: number; } => ({ size: s.size * scalingFactor, weight: s.weight });
+        
+    const scaledConfig: HoloDesignRendererConfig = {
+        ...config,
+        mainCircleSizes: config.mainCircleSizes.map(scalingFunction),
+        haloCircleSizes: config.haloCircleSizes.map(scalingFunction)
+    }
+
+    const drawingMechanics = setupCanvasDrawingMechanics();
+    if (drawingMechanics == null) {
+        return;
+    }
+    holoDesign = new HoloDesignRenderer(drawingMechanics, scaledConfig);
 };
 
 export const render = () => {

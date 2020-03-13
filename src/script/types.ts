@@ -27,7 +27,7 @@ type HoloDesignRendererConfig = {
 }
 
 interface IDrawingMechanics {
-    clear(): void;
+    clear(colorCode: string): void;
     drawCircleObject(circle: ICircle): void;
     drawSvgPath(pathString: string, color: string): void;
     areCoordinatesOutOfBounds(x: number, y: number): boolean;
