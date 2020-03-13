@@ -1,5 +1,6 @@
 import { HoloDesignRenderer } from "./holo-design-renderer";
 import { CanvasDrawingMechanics } from "./canvas-drawing-mechanics";
+import { RenderTypes, HoloDesignRendererConfig, SizeChoice } from "../types";
 
 var holoDesign: HoloDesignRenderer;
 
@@ -34,10 +35,15 @@ export const getConfig = (): HoloDesignRendererConfig => {
             canvasBackgroundColor: "#000",
             logoColor: "#000",
             animationLoopFrameLength: 20,
-            burstNumberPixelsMovePerFrame: 2
+            burstNumberPixelsMovePerFrame: 2,
+            renderType: RenderTypes.Canvas
         };
 
         return config;
+};
+
+const setupSvgDrawingMechanics = () => {
+
 };
 
 const setupCanvasDrawingMechanics = () => {
@@ -67,7 +73,8 @@ export const createDesignRenderer = (config: HoloDesignRendererConfig) => {
         haloCircleSizes: config.haloCircleSizes.map(scalingFunction)
     }
 
-    const drawingMechanics = setupCanvasDrawingMechanics();
+    const drawingMechanics = config.renderType === RenderTypes.Canvas ? setupCanvasDrawingMechanics() : setupSvgDrawingMechanics();
+
     if (drawingMechanics == null) {
         return;
     }

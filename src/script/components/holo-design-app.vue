@@ -48,6 +48,17 @@
           <input type="color" v-model="config.logoColor">
         </label>
 
+        <h3>Experimental Stuff</h3>
+
+        <h2>Render Type:</h2>
+        <label>
+          <input type="radio" value="canvas" v-model="config.renderType">
+          Canvas
+        </label>
+        <label>
+          <input type="radio" value="svg" v-model="config.renderType">
+          SVG (Expect this to fail for a while. You have been warned!)
+        </label>
       </div>
 
       <div class="column-3">
@@ -187,10 +198,15 @@ export default Vue.extend({
     label {
       display: inline-flex;
       align-items: center;
+      margin-bottom: 8px;
       
       input[type="color"] {
           height: 44px;
           margin: 0 8px;
+      }
+
+      input[type="radio"] {
+        margin-right: 8px;
       }
     }
   }

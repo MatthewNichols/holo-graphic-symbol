@@ -1,10 +1,10 @@
 
-type XYCoordinates = {x: number, y: number };
-type CoordinatesTestFunction = (coordinates: XYCoordinates) => boolean;
-type SizeChoice = { size: number, weight: number };
-type ColorSpec = { r: number, g: number, b: number, alpha?: number };
+export type XYCoordinates = {x: number, y: number };
+export type CoordinatesTestFunction = (coordinates: XYCoordinates) => boolean;
+export type SizeChoice = { size: number, weight: number };
+export type ColorSpec = { r: number, g: number, b: number, alpha?: number };
 
-type HoloDesignRendererConfig = {
+export type HoloDesignRendererConfig = {
     center: XYCoordinates,
     circleRadius: number,
     gapToHalo: number,
@@ -23,7 +23,13 @@ type HoloDesignRendererConfig = {
      * Number of milliseconds between animation frames 
      */
     animationLoopFrameLength: number,
-    burstNumberPixelsMovePerFrame: number 
+    burstNumberPixelsMovePerFrame: number,
+    renderType: RenderTypes 
+}
+
+export enum RenderTypes {
+    Canvas = "canvas",
+    SVG = "svg"
 }
 
 interface IDrawingMechanics {
