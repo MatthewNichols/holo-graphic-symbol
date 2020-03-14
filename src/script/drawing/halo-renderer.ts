@@ -1,5 +1,6 @@
 import { BaseConstrainedRenderer } from "./base-constrained-renderer";
 import { Circle } from "./circle";
+import { SizeChoice, ColorSpec, IDrawingMechanics } from "../types";
 
 class CircleWithColorAnimationData extends Circle {
     constructor(centerX: number, centerY: number, radius: number, color: ColorSpec | string = "") {
@@ -45,13 +46,16 @@ export class HaloRenderer extends BaseConstrainedRenderer {
             .filter((c) => !c.animationComplete)
             .forEach((c) => {
                 var cSpec = c.color as ColorSpec;
-                const currentAlpha = cSpec.alpha || 0;
-                //@ts-ignore
-                if (currentAlpha < c.colorTarget?.alpha) {
-                    c.color = { ...cSpec, alpha: currentAlpha + .02 }
-                } else {
-                    c.animationComplete = true;
-                }
+                // const currentAlpha = cSpec.alpha || 0;
+                // //@ts-ignore
+                // if (currentAlpha < c.colorTarget?.alpha) {
+                //     c.color = { ...cSpec, alpha: currentAlpha + .02 }
+                // } else {
+                //     c.animationComplete = true;
+                // }
+
+                c.color = { ...cSpec, alpha: 1 }
+                c.animationComplete = true;
         });
 
         return circlesWithAnimationData.some((c) => !c.animationComplete);

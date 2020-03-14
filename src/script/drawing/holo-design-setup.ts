@@ -1,6 +1,7 @@
 import { HoloDesignRenderer } from "./holo-design-renderer";
 import { CanvasDrawingMechanics } from "./canvas-drawing-mechanics";
 import { RenderTypes, HoloDesignRendererConfig, SizeChoice } from "../types";
+import { SvgDrawingMechanics } from "./svg-drawing-mechanics";
 
 var holoDesign: HoloDesignRenderer;
 
@@ -43,7 +44,10 @@ export const getConfig = (): HoloDesignRendererConfig => {
 };
 
 const setupSvgDrawingMechanics = () => {
+    const palletteSize = 1000;
 
+    const drawingMechanics = new SvgDrawingMechanics("#holo-burst-svg", palletteSize);
+    return drawingMechanics;
 };
 
 const setupCanvasDrawingMechanics = () => {

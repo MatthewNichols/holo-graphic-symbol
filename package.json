@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/MatthewNichols/holo-graphic-symbol#readme",
   "dependencies": {
+    "@svgdotjs/svg.js": "^3.0.16",
     "@types/lodash-es": "^4.17.3",
     "scripts": "^0.1.0",
     "vue": "^2.6.11",

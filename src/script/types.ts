@@ -32,14 +32,14 @@ export enum RenderTypes {
     SVG = "svg"
 }
 
-interface IDrawingMechanics {
+export interface IDrawingMechanics {
     clear(colorCode: string): void;
     drawCircleObject(circle: ICircle): void;
     drawSvgPath(pathString: string, color: string): void;
     areCoordinatesOutOfBounds(x: number, y: number): boolean;
 }
 
-interface ICircle {
+export interface ICircle {
     centerX: number;
     centerY: number;
     radius: number;
