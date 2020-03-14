@@ -2,7 +2,7 @@ import { CircleConstrainedRender } from './main-circle-renderer';
 import { HaloRenderer } from "./halo-renderer";
 import { BurstRenderer } from "./burst-renderer";
 import { MarkRender } from "./mark-renderer";
-import { CanvasDrawingMechanics } from "./canvas-drawing-mechanics";
+import { IDrawingMechanics, HoloDesignRendererConfig } from "../types";
 
 export class HoloDesignRenderer {
     constructor(drawingMechanics: IDrawingMechanics, private config: HoloDesignRendererConfig) {

@@ -1,5 +1,6 @@
 import { HaloRenderer } from "./halo-renderer";
 import { Circle } from "./circle";
+import { ColorSpec, SizeChoice, IDrawingMechanics } from "../types";
 
 class CircleWithPolarData extends Circle {
     constructor(centerX: number, centerY: number, radius: number, color: ColorSpec | string = "", public distanceFromCenter: number, public angle: number) {

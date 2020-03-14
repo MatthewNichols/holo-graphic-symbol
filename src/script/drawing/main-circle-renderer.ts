@@ -1,4 +1,5 @@
 import { BaseConstrainedRenderer } from "./base-constrained-renderer";
+import { IDrawingMechanics, SizeChoice } from "../types";
 
 export class CircleConstrainedRender extends BaseConstrainedRenderer {
     constructor(centerX: number, centerY: number, circleRadii: SizeChoice[], circleColors: string[], 

@@ -1,4 +1,6 @@
 import { Circle } from "./circle";
+import { SizeChoice, IDrawingMechanics, ICircle, XYCoordinates } from "../types";
+
 export abstract class BaseConstrainedRenderer {
     constructor(public centerX: number, public centerY: number, public circleRadii: SizeChoice[], public circleColors: string[], 
         protected drawingMechanics: IDrawingMechanics, public radius: number) {

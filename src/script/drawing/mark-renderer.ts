@@ -1,3 +1,5 @@
+import { IDrawingMechanics } from "../types";
+
 export class MarkRender {
     constructor(public centerX: number, public centerY: number, private drawingMechanics: IDrawingMechanics, public radius: number, public color: string) {    }
     

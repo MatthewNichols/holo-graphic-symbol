@@ -1,5 +1,6 @@
 import { BaseConstrainedRenderer } from "./base-constrained-renderer";
 import { Circle } from "./circle";
+import { ColorSpec, SizeChoice, IDrawingMechanics } from "../types";
 
 class CircleWithColorAnimationData extends Circle {
     constructor(centerX: number, centerY: number, radius: number, color: ColorSpec | string = "") {

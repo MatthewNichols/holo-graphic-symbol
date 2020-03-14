@@ -1,3 +1,5 @@
+import { IDrawingMechanics, ICircle } from "../types";
+
 export class SvgDrawingMechanics implements IDrawingMechanics {
     clear(colorCode: string): void {
         throw new Error("Method not implemented.");
