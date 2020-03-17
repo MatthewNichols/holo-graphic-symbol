@@ -127,6 +127,8 @@ export default Vue.extend({
   created() {
     createDesignRenderer(createPlainCopyOfReactiveConfig(this.config));
     render();
+
+    setInterval(() => this.cancelMessage(), 10 * 1000)
   },
   methods: {
     rerunClick() {
