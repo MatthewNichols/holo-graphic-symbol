@@ -1,14 +1,17 @@
 <template>
     <div>
-        <h3>Circle Colors</h3>
-        <div  class="circle-colors">
-            <circle-color-item  v-for="(color, index) in value" v-bind:key="index" 
-                            :color="color" 
-                            @updateValue="updateValue" 
-                            @removeItem="removeItem"></circle-color-item>
-            
-        </div>
-        <button @click="addNewColor">Add New Color</button>
+        <ui-grouping>
+            <template v-slot:name>Circle Colors</template>
+
+            <div  class="circle-colors">
+                <circle-color-item  v-for="(color, index) in value" v-bind:key="index" 
+                                :color="color" 
+                                @updateValue="updateValue" 
+                                @removeItem="removeItem"></circle-color-item>
+                
+            </div>
+            <button @click="addNewColor">Add New Color</button>
+        </ui-grouping>
     </div>
 </template>
 
@@ -16,6 +19,7 @@
 import Vue from 'vue'
 
 import CircleColorItem from './circle-color-item.vue'
+import UiGrouping from "./ui-grouping.vue";
 
 function getRandomColor() {
   function c() {
@@ -31,7 +35,7 @@ export default Vue.extend({
         value: Array
     },
     components: {
-        CircleColorItem
+        CircleColorItem, UiGrouping
     },
     methods: {
         updateValue(oldColor: string, newColor: string) {

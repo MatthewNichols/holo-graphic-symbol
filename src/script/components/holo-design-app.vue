@@ -18,47 +18,56 @@
           <numeric-range-input v-model.number="config.gapToHalo" :min="0" :max="300" >Gap between Circle and Halo</numeric-range-input>
         </ui-grouping>
         
-        <h3>
-          Number of Drawing attempts 
-        </h3>        
-        <p>How many random placements of circles are attempted in each part of the drawing? Overlaps are not allowed so some fail. As will be clear this has an impact on performance.</p>
-        <numeric-range-input v-model.number="config.mainCircleNumberOfAttempts" :min="0" :max="10000" >Circle</numeric-range-input>
-        <numeric-range-input v-model.number="config.haloNumberOfAttempts" :min="0" :max="10000" >Halo</numeric-range-input>
-        <numeric-range-input v-model.number="config.burstNumberOfAttempts" :min="0" :max="10000" >Burst</numeric-range-input>
+        <ui-grouping>
+          <template v-slot:name>
+            Number of Drawing attempts 
+          </template>
 
-        <h3>
-          Animation Settings 
-        </h3>
-        <numeric-range-input v-model.number="config.animationLoopFrameLength" :min="1" :max="1000" >Number of milliseconds between animation frames</numeric-range-input>
-        <numeric-range-input v-model.number="config.burstNumberPixelsMovePerFrame" :min="1" :max="100" >Number of pixels burst moves per animation frame</numeric-range-input>
+          <p>How many random placements of circles are attempted in each part of the drawing? Overlaps are not allowed so some fail. As will be clear this has an impact on performance.</p>
+          <numeric-range-input v-model.number="config.mainCircleNumberOfAttempts" :min="0" :max="10000" >Circle</numeric-range-input>
+          <numeric-range-input v-model.number="config.haloNumberOfAttempts" :min="0" :max="10000" >Halo</numeric-range-input>
+          <numeric-range-input v-model.number="config.burstNumberOfAttempts" :min="0" :max="10000" >Burst</numeric-range-input>
+        </ui-grouping>
+
+        <ui-grouping>
+          <template v-slot:name>
+            Animation Settings 
+          </template>
+          <numeric-range-input v-model.number="config.animationLoopFrameLength" :min="1" :max="1000" >Number of milliseconds between animation frames</numeric-range-input>
+          <numeric-range-input v-model.number="config.burstNumberPixelsMovePerFrame" :min="1" :max="100" >Number of pixels burst moves per animation frame</numeric-range-input>
+        </ui-grouping>
       </div>
 
       <div class="column-2">
         <circle-colors-input v-model="config.circleColors"></circle-colors-input>
 
-        <h3>Other Colors</h3>
-        
-        <label>
-          Background:
-          <input type="color" v-model="config.canvasBackgroundColor">
-        </label>
-        
-        <label>
-          Logo:
-          <input type="color" v-model="config.logoColor">
-        </label>
+        <ui-grouping>
+          <template v-slot:name>Other Colors</template>
+          
+          <label>
+            Background:
+            <input type="color" v-model="config.canvasBackgroundColor">
+          </label>
+          
+          <label>
+            Logo:
+            <input type="color" v-model="config.logoColor">
+          </label>
+        </ui-grouping>
 
-        <h3>Experimental Stuff</h3>
+        <ui-grouping>
+          <template v-slot:name>Experimental Stuff</template>
 
-        <h4>Render Type:</h4>
-        <label>
-          <input type="radio" value="canvas" v-model="config.renderType">
-          Canvas
-        </label>
-        <label>
-          <input type="radio" value="svg" v-model="config.renderType">
-          SVG (Expect this to fail for a while. You have been warned!)
-        </label>
+          <h4>Render Type:</h4>
+          <label>
+            <input type="radio" value="canvas" v-model="config.renderType">
+            Canvas
+          </label>
+          <label>
+            <input type="radio" value="svg" v-model="config.renderType">
+            SVG (Expect this to fail for a while. You have been warned!)
+          </label>
+        </ui-grouping>
       </div>
 
       <div class="column-3">
@@ -171,7 +180,7 @@ export default Vue.extend({
     grid: [row1-start] "header header header" auto [row1-end]
           [row2-start] "col-1 col-2 col-3" 1fr [row2-end]
           [row3-start] "footer footer footer" auto [row3-end]
-          / 300px auto 250px;
+          / 360px auto 250px;
 
   .column-1 {
     grid-area: col-1;
