@@ -1,7 +1,8 @@
-@mixin button-base($background: none) {
+@mixin button-base($background: none, $border-radius: 0) {
     padding: 10px 15px;
     background: $background;
     border: none;
     font-size: 16px;
     cursor: pointer;
+    border-radius: $border-radius;
 }

@@ -170,6 +170,7 @@ export default Vue.extend({
     background-color: #a2a2a2;
     width: 100%;
     max-width: 1000px;
+    min-height: 500px;
     padding: 10px 20px;
     border-radius: 10px;
     box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
@@ -195,7 +196,9 @@ export default Vue.extend({
 
       .messageToUser {
         background-color: #fff;
-        padding: 4px 8px;
+        padding: 4px 12px;
+        display: flex;
+        align-items: center;
         border-radius: 10px;
         box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.75);
       }
@@ -236,7 +239,8 @@ export default Vue.extend({
     padding: 5px 0 15px 0;
 
     button {
-      @include button-base(rgba(#1497A2, 0.5));
+      @include button-base(rgba(#1497A2, 0.5), 4px);
+      border: 1px solid #717171;
     }
   }
 }

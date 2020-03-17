@@ -72,7 +72,7 @@ h3 {
 }
 
 button {
-    @include button-base();
+    @include button-base($border-radius: 4px);
     margin-top: 4px;
     margin-left: 8px;
     border: 2px solid scale-color($color: #a2a2a2, $lightness: -30%);
