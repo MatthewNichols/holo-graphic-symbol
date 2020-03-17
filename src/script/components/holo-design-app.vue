@@ -9,14 +9,14 @@
       </header>
 
       <div class="column-1">
-        <h3>
-          Display Dimensions
-        </h3>        
-        
-        <numeric-range-input v-model.number="config.circleRadius" :min="50" :max="400" >Circle Radius</numeric-range-input>
-        <numeric-range-input v-model.number="config.haloThickness" :min="0" :max="300" >Halo Thickness</numeric-range-input>
-        <numeric-range-input v-model.number="config.burstThickness" :min="0" :max="300" >Burst Thickness</numeric-range-input>
-        <numeric-range-input v-model.number="config.gapToHalo" :min="0" :max="300" >Gap between Circle and Halo</numeric-range-input>
+        <ui-grouping>
+          <template v-slot:name>Display Dimensions</template>
+            
+          <numeric-range-input v-model.number="config.circleRadius" :min="50" :max="400" >Circle Radius</numeric-range-input>
+          <numeric-range-input v-model.number="config.haloThickness" :min="0" :max="300" >Halo Thickness</numeric-range-input>
+          <numeric-range-input v-model.number="config.burstThickness" :min="0" :max="300" >Burst Thickness</numeric-range-input>
+          <numeric-range-input v-model.number="config.gapToHalo" :min="0" :max="300" >Gap between Circle and Halo</numeric-range-input>
+        </ui-grouping>
         
         <h3>
           Number of Drawing attempts 
@@ -50,7 +50,7 @@
 
         <h3>Experimental Stuff</h3>
 
-        <h2>Render Type:</h2>
+        <h4>Render Type:</h4>
         <label>
           <input type="radio" value="canvas" v-model="config.renderType">
           Canvas
@@ -80,6 +80,7 @@ import { createDesignRenderer, render, clearData, getConfig } from "../drawing/h
 import NumericRangeInput from "./numeric-range-input.vue";
 import CircleColorsInput from "./circle-colors-input.vue";
 import CircleSizes from "./circle-sizes.vue";
+import UiGrouping from "./ui-grouping.vue";
 
 //If the animation runs against Vue's reactive copy then it runs slowly. Do a deep clone to strip out the reactivity for rendering
 const deepCopy = (inObject: any): any => {
@@ -113,7 +114,7 @@ export default Vue.extend({
       messageToUser
     } 
   },
-  components: { NumericRangeInput, CircleColorsInput, CircleSizes },
+  components: { NumericRangeInput, CircleColorsInput, CircleSizes, UiGrouping },
   created() {
     createDesignRenderer(createPlainCopyOfReactiveConfig(this.config));
     render();
