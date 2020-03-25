@@ -1,5 +1,6 @@
 import { BaseConstrainedRenderer } from "./base-constrained-renderer";
 import { Circle } from "./circle";
+import { ColorSpec, SizeChoice, IDrawingMechanics } from "../types";
 
 class CircleWithColorAnimationData extends Circle {
     constructor(centerX: number, centerY: number, radius: number, color: ColorSpec | string = "") {
@@ -18,7 +19,7 @@ class CircleWithColorAnimationData extends Circle {
 
 export class HaloRenderer extends BaseConstrainedRenderer {
     constructor(centerX: number, centerY: number, circleRadii: SizeChoice[], circleColors: string[], 
-            drawingMechanics: IDrawingMechanics, radius: number, public haloThickness: number) {
+            drawingMechanics: IDrawingMechanics, radius: number, public haloThickness: number, private numberOfCircleAttempts: number) {
         super(centerX, centerY, circleRadii, circleColors, drawingMechanics, radius);
 
         let circleColorSpecs: {[key: string]: ColorSpec} = {};
@@ -34,7 +35,7 @@ export class HaloRenderer extends BaseConstrainedRenderer {
 
     calculateInitial() {
         // Iterate to draw a lot of circles
-        for (var i = 0; i < 1600; i++) {
+        for (var i = 0; i < this.numberOfCircleAttempts; i++) {
             this.calculateACircle(this.circleRadii);
         }
     }
@@ -48,7 +49,7 @@ export class HaloRenderer extends BaseConstrainedRenderer {
                 const currentAlpha = cSpec.alpha || 0;
                 //@ts-ignore
                 if (currentAlpha < c.colorTarget?.alpha) {
-                    c.color = { ...cSpec, alpha: currentAlpha + .01 }
+                    c.color = { ...cSpec, alpha: currentAlpha + .02 }
                 } else {
                     c.animationComplete = true;
                 }

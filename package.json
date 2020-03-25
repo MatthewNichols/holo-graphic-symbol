@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "parcel src/index.html src/canvas.html",
-    "build": "parcel build src/*.html"
+    "build": "parcel build src/*.html",
+    "build-smaller": "parcel build src/*.html --experimental-scope-hoisting",
+    "run-build": "npx http-server ./dist"
   },
   "repository": {
     "type": "git",
@@ -17,9 +19,17 @@
     "url": "https://github.com/MatthewNichols/holo-graphic-symbol/issues"
   },
   "homepage": "https://github.com/MatthewNichols/holo-graphic-symbol#readme",
-  "dependencies": {},
+  "dependencies": {
+    "@types/lodash-es": "^4.17.3",
+    "scripts": "^0.1.0",
+    "vue": "^2.6.11",
+    "vue-hot-reload-api": "^2.3.4"
+  },
   "devDependencies": {
+    "@vue/component-compiler-utils": "^3.1.1",
     "parcel-bundler": "^1.12.4",
-    "typescript": "^3.8.3"
+    "sass": "^1.26.2",
+    "typescript": "^3.8.3",
+    "vue-template-compiler": "^2.6.11"
   }
 }

@@ -1,3 +1,4 @@
+import { IDrawingMechanics, ICircle, ColorSpec } from "../types";
 
 export class CanvasDrawingMechanics implements IDrawingMechanics {
     constructor(private context: CanvasRenderingContext2D) {

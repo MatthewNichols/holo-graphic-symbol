@@ -1,5 +1,6 @@
 import { HaloRenderer } from "./halo-renderer";
 import { Circle } from "./circle";
+import { ColorSpec, SizeChoice, IDrawingMechanics } from "../types";
 
 class CircleWithPolarData extends Circle {
     constructor(centerX: number, centerY: number, radius: number, color: ColorSpec | string = "", public distanceFromCenter: number, public angle: number) {
@@ -25,13 +26,22 @@ class CircleWithPolarData extends Circle {
 }
 
 export class BurstRenderer extends HaloRenderer { 
+    constructor(centerX: number, centerY: number, circleRadii: SizeChoice[], circleColors: string[], 
+        drawingMechanics: IDrawingMechanics, radius: number, haloThickness: number, numberOfCircleAttempts: number, private numberPixelsMovePerFrame: number) {
+            super(centerX, centerY, circleRadii, circleColors, drawingMechanics, radius, haloThickness, numberOfCircleAttempts)
+    }
 
     calculateAnimationFrame(): boolean {
         this.circles = this.circles.filter((c) => ! c.markedForRemoval);
 
         this.circles.forEach((c) => {
             const circle = (c as CircleWithPolarData);
-            circle.moveOutFromCenter(2);
+            circle.moveOutFromCenter(this.numberPixelsMovePerFrame);
+
+            // var cSpec = circle.color as ColorSpec;
+            // const currentAlpha = cSpec.alpha || 0;
+            // cSpec.alpha = currentAlpha - (currentAlpha * 0.005);
+
             if (this.drawingMechanics.areCoordinatesOutOfBounds(circle.centerX, circle.centerY)) {
                 circle.markedForRemoval = true;
             }
