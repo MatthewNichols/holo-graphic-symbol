@@ -1,19 +1,18 @@
 import { Circle } from "./circle";
 import { SizeChoice, IDrawingMechanics, ICircle, XYCoordinates } from "../types";
+import { CircleContainer } from "./circle-container";
 
 export abstract class BaseConstrainedRenderer {
     constructor(public centerX: number, public centerY: number, public circleRadii: SizeChoice[], public circleColors: string[], 
         protected drawingMechanics: IDrawingMechanics, public radius: number) {
-        
-        this.circles = [];
     }
 
-    circles: ICircle[];
+    circles = new CircleContainer();
     
     abstract calculateInitial(): void;
 
     clearData() {
-        this.circles = [];
+        this.circles.clear();
     }
     /**
      * Calulates the next set of animation changes.
@@ -50,24 +49,26 @@ export abstract class BaseConstrainedRenderer {
     }
 
     pickCircleColor(circleX: number, circleY: number) {
-        const closestColor = this.getNearestCircleToCoordinates(circleX, circleY);
+        const closestCircle: ICircle | null = this.getNearestCircleToCoordinates(circleX, circleY);
+        const closestColor = closestCircle ? closestCircle.color : this.circleColors[0];
         const weightedPalette = [...this.circleColors, closestColor, closestColor, closestColor, closestColor, closestColor, closestColor];
         return weightedPalette[Math.floor(Math.random() * weightedPalette.length)];
     }
 
-    getNearestCircleToCoordinates(x: number, y: number, howMany = 1) {
+    getNearestCircleToCoordinates(x: number, y: number, howMany = 1): ICircle | null {
         const distanceCalc = (otherCircle: ICircle) => {
             const xDiff = x - otherCircle.centerX;
             const yDiff = y - otherCircle.centerY;
             return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
         };
         const closestColor = this.circles
-            .map((c) => ({ distance: distanceCalc(c), color: c.color }))
+            .map((c) => ({ distance: distanceCalc(c), circle: c }))
             .sort((a, b) => (a.distance > b.distance) ? 1 : -1);
         if (closestColor.length) {
-            return closestColor[0].color;
+            return closestColor[0].circle;
         }
-        return this.circleColors[0];
+
+        return null;
     }
 
     addCircle(circle: ICircle) {
