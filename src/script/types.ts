@@ -45,8 +45,15 @@ export interface ICircle {
     radius: number;
     color: ColorSpec | string;
     markedForRemoval: boolean;
+    sectorRow: number;
+    sectorColumn: number;
 
     willCollideWith(otherCircle: ICircle): boolean;
     distanceBetweenEdges(otherCircle: ICircle): number;
     distanceBetweenCenters(otherCircle: ICircle): number;
+}
+
+export interface IPositionSector {
+    row: number;
+    column: number;    
 }

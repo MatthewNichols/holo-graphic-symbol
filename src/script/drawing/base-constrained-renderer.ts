@@ -7,7 +7,7 @@ export abstract class BaseConstrainedRenderer {
         protected drawingMechanics: IDrawingMechanics, public radius: number) {
     }
 
-    circles = new CircleContainer();
+    circles = new CircleContainer(this.radius);
     
     abstract calculateInitial(): void;
 
@@ -24,7 +24,7 @@ export abstract class BaseConstrainedRenderer {
     }
 
     render(): void {
-        this.circles.forEach((c) => this.drawingMechanics.drawCircleObject(c));
+        this.circles.forEach((c: ICircle) => this.drawingMechanics.drawCircleObject(c));
     }
     
     protected calculateACircle(sizeChoices: SizeChoice[]) {
@@ -32,43 +32,32 @@ export abstract class BaseConstrainedRenderer {
         if (!newCoordinates) {
             return;
         }
-        const circleSize = this.pickNewCircleSize(newCoordinates.x, newCoordinates.y, sizeChoices);
+
+        const nearestNeighbor: ICircle | null = this.circles.getNearestCircleToCoordinates(newCoordinates.x, newCoordinates.y);
+
+        const circleSize = this.pickNewCircleSize(newCoordinates.x, newCoordinates.y, nearestNeighbor, sizeChoices);
         if (circleSize) {
-            const randomColor = this.pickCircleColor(newCoordinates.x, newCoordinates.y);
+            const randomColor = this.pickCircleColor(newCoordinates.x, newCoordinates.y, nearestNeighbor);
             const circle = new Circle(newCoordinates.x, newCoordinates.y, circleSize, randomColor);
             this.addCircle(circle);
         }
     }
 
-    pickNewCircleSize(x: number, y: number, sizeChoices: SizeChoice[]): number | undefined {
-        return this.sizeChoicesRandomSorted(sizeChoices).find((size: SizeChoice) => !this.willCollideWithAny(new Circle(x, y, size.size)))?.size;
+    pickNewCircleSize(x: number, y: number, nearestNeighbor: ICircle | null, sizeChoices: SizeChoice[]): number | undefined {
+        nearestNeighbor = nearestNeighbor || new Circle(0 , 0, 0);
+        
+        //@ts-ignore
+        return this.sizeChoicesRandomSorted(sizeChoices).find((size: SizeChoice) => !nearestNeighbor.willCollideWith(new Circle(x, y, size.size)))?.size;
     }
 
     sizeChoicesRandomSorted(sizeChoices: SizeChoice[]) {
         return sizeChoices.sort((a, b) => (a.weight * Math.random()) < (b.weight * Math.random()) ? 1 : -1 )
     }
 
-    pickCircleColor(circleX: number, circleY: number) {
-        const closestCircle: ICircle | null = this.getNearestCircleToCoordinates(circleX, circleY);
-        const closestColor = closestCircle ? closestCircle.color : this.circleColors[0];
+    pickCircleColor(circleX: number, circleY: number, nearestNeighbor: ICircle | null) {
+        const closestColor = nearestNeighbor ? nearestNeighbor.color : this.circleColors[0];
         const weightedPalette = [...this.circleColors, closestColor, closestColor, closestColor, closestColor, closestColor, closestColor];
         return weightedPalette[Math.floor(Math.random() * weightedPalette.length)];
-    }
-
-    getNearestCircleToCoordinates(x: number, y: number, howMany = 1): ICircle | null {
-        const distanceCalc = (otherCircle: ICircle) => {
-            const xDiff = x - otherCircle.centerX;
-            const yDiff = y - otherCircle.centerY;
-            return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
-        };
-        const closestColor = this.circles
-            .map((c) => ({ distance: distanceCalc(c), circle: c }))
-            .sort((a, b) => (a.distance > b.distance) ? 1 : -1);
-        if (closestColor.length) {
-            return closestColor[0].circle;
-        }
-
-        return null;
     }
 
     addCircle(circle: ICircle) {
@@ -76,7 +65,7 @@ export abstract class BaseConstrainedRenderer {
     }
 
     willCollideWithAny(testCircle: ICircle) {
-        return this.circles.some((c) => c.willCollideWith(testCircle));
+        return this.circles.some((c: ICircle) => c.willCollideWith(testCircle));
     }
 
     measureCoordinatesDistanceFromCenter = (coordinates: XYCoordinates) => {

@@ -1,6 +1,6 @@
 import { BaseConstrainedRenderer } from "./base-constrained-renderer";
 import { Circle } from "./circle";
-import { ColorSpec, SizeChoice, IDrawingMechanics } from "../types";
+import { ColorSpec, SizeChoice, IDrawingMechanics, ICircle } from "../types";
 
 class CircleWithColorAnimationData extends Circle {
     constructor(centerX: number, centerY: number, radius: number, color: ColorSpec | string = "") {
@@ -41,9 +41,8 @@ export class HaloRenderer extends BaseConstrainedRenderer {
     }
     
     calculateAnimationFrame(): boolean {
-        const circlesWithAnimationData = this.circles as CircleWithColorAnimationData[];
-        circlesWithAnimationData
-            .filter((c) => !c.animationComplete)
+        this.circles
+            .filter((c) => !(c as CircleWithColorAnimationData).animationComplete)
             .forEach((c) => {
                 var cSpec = c.color as ColorSpec;
                 const currentAlpha = cSpec.alpha || 0;
@@ -51,11 +50,12 @@ export class HaloRenderer extends BaseConstrainedRenderer {
                 if (currentAlpha < c.colorTarget?.alpha) {
                     c.color = { ...cSpec, alpha: currentAlpha + .02 }
                 } else {
-                    c.animationComplete = true;
+                    (c as CircleWithColorAnimationData).animationComplete = true;
                 }
         });
 
-        return circlesWithAnimationData.some((c) => !c.animationComplete);
+        //Are there any more frames to animate
+        return this.circles.some((c) => !(c as CircleWithColorAnimationData).animationComplete);
     }
 
     calculateAlpha(distanceFromCenter: number): number {
@@ -94,9 +94,11 @@ export class HaloRenderer extends BaseConstrainedRenderer {
             return;
         }
         
-        const circleSize = this.pickNewCircleSize(newCoordinates.x, newCoordinates.y, sizeChoices);
+        const nearestNeighbor: ICircle | null = this.circles.getNearestCircleToCoordinates(newCoordinates.x, newCoordinates.y);
+
+        const circleSize = this.pickNewCircleSize(newCoordinates.x, newCoordinates.y, nearestNeighbor, sizeChoices);
         if (circleSize) {
-            let randomColor = this.circleColorSpecs[this.pickCircleColor(newCoordinates.x, newCoordinates.y) as string] as any; 
+            let randomColor = this.circleColorSpecs[this.pickCircleColor(newCoordinates.x, newCoordinates.y, nearestNeighbor) as string] as any; 
             randomColor = { ...randomColor, alpha: this.calculateAlpha(newCoordinates.distanceFromCenter) };
             const circle = new CircleWithColorAnimationData(newCoordinates.x, newCoordinates.y, circleSize, randomColor);
             this.addCircle(circle);

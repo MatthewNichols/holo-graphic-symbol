@@ -1,10 +1,40 @@
-import { ICircle } from "../types";
+import { ICircle, IPositionSector } from "../types";
 
 export class CircleContainer {
+    constructor(radius: number) {
+        this.containerWidthHeight = radius * 2;
+        this.sectorWidth = Math.floor(this.containerWidthHeight / this.numberOfSectorDivisions);
+        this.sectorHeight = Math.floor(this.containerWidthHeight / this.numberOfSectorDivisions);
+    }
+
+    readonly containerWidthHeight: number;
+    readonly numberOfSectorDivisions = 10;
     private items = new Array<ICircle>();
+    private sectorWidth: number;
+    private sectorHeight: number;
+
+    calculateSector(x: number, y: number): IPositionSector {
+        return {
+            row: Math.floor(y / this.sectorHeight),
+            column:Math.floor(x / this.sectorWidth)
+        }
+    }
+    
+    // calculateAdjacentSectors(x: number, y: number): IPositionSector[] {
+    //     const coordinatesSector = this.calculateSector(x, y);
+
+    //     if 
+    // }
 
     push(...items: ICircle[]): number {
-        return this.items.push(...items);
+        items.forEach((c: ICircle) =>{
+            let sector = this.calculateSector(c.centerX, c.centerY);
+            c.sectorRow = sector.row;
+            c.sectorColumn = sector.column;
+            this.items.push(c);
+        });
+
+        return this.items.length;
     }
 
     forEach(callbackfn: (value: ICircle, index: number, array: ICircle[]) => void): void {
@@ -25,5 +55,42 @@ export class CircleContainer {
 
     filter(callbackfn: (value: ICircle, index: number, array: ICircle[]) => unknown): ICircle[] {
         return this.items.filter(callbackfn);
+    }
+
+    removeItemsMarkedForRemoval() {
+        this.items = this.items.filter((c) => ! c.markedForRemoval);
+    }
+    
+    public get length() : number {
+        return this.items.length;
+    }
+    
+    getCirclesInNearSectors(x: number, y: number): ICircle[] {
+        const coordinatesSector = this.calculateSector(x, y);
+        const circles = this.items
+            .filter((c) => c.sectorColumn >= coordinatesSector.column - 1 
+                        && c.sectorColumn <= coordinatesSector.column +1
+                        && c.sectorRow >= coordinatesSector.row - 1
+                        && c.sectorRow <= coordinatesSector.row + 1
+        );
+
+        return circles;
+    }
+
+    getNearestCircleToCoordinates(x: number, y: number): ICircle | null {
+        const distanceCalc = (otherCircle: ICircle) => {
+            const xDiff = x - otherCircle.centerX;
+            const yDiff = y - otherCircle.centerY;
+            return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
+        };
+
+        const closestCircle = this.getCirclesInNearSectors(x, y)
+            .map((c) => ({ distance: distanceCalc(c), circle: c }))
+            .sort((a, b) => (a.distance > b.distance) ? 1 : -1);
+        if (closestCircle.length) {
+            return closestCircle[0].circle;
+        }
+
+        return null;
     }
 }
