@@ -1,13 +1,11 @@
 import { ICircle, IPositionSector } from "../types";
 
 export class CircleContainer {
-    constructor(radius: number) {
-        this.containerWidthHeight = radius * 2;
+    constructor(public containerWidthHeight: number) {
         this.sectorWidth = Math.floor(this.containerWidthHeight / this.numberOfSectorDivisions);
         this.sectorHeight = Math.floor(this.containerWidthHeight / this.numberOfSectorDivisions);
     }
 
-    readonly containerWidthHeight: number;
     readonly numberOfSectorDivisions = 10;
     private items = new Array<ICircle>();
     private sectorWidth: number;
@@ -19,12 +17,6 @@ export class CircleContainer {
             column:Math.floor(x / this.sectorWidth)
         }
     }
-    
-    // calculateAdjacentSectors(x: number, y: number): IPositionSector[] {
-    //     const coordinatesSector = this.calculateSector(x, y);
-
-    //     if 
-    // }
 
     push(...items: ICircle[]): number {
         items.forEach((c: ICircle) =>{

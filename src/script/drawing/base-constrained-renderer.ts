@@ -5,9 +5,11 @@ import { CircleContainer } from "./circle-container";
 export abstract class BaseConstrainedRenderer {
     constructor(public centerX: number, public centerY: number, public circleRadii: SizeChoice[], public circleColors: string[], 
         protected drawingMechanics: IDrawingMechanics, public radius: number) {
+
+        this.circles = new CircleContainer(this.radius * 2);
     }
 
-    circles = new CircleContainer(this.radius);
+    circles: CircleContainer;
     
     abstract calculateInitial(): void;
 

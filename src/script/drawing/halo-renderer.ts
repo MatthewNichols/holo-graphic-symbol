@@ -1,6 +1,7 @@
 import { BaseConstrainedRenderer } from "./base-constrained-renderer";
 import { Circle } from "./circle";
 import { ColorSpec, SizeChoice, IDrawingMechanics, ICircle } from "../types";
+import { CircleContainer } from "./circle-container";
 
 class CircleWithColorAnimationData extends Circle {
     constructor(centerX: number, centerY: number, radius: number, color: ColorSpec | string = "") {
@@ -27,7 +28,8 @@ export class HaloRenderer extends BaseConstrainedRenderer {
             circleColorSpecs[c] = this.hexToRgbColorSpec(c);
         });
         this.circleColorSpecs = circleColorSpecs;
-         
+
+        this.circles = new CircleContainer((this.radius + this.haloThickness) * 2);
     }
 
     readonly greatestDistanceFromCenter = this.radius + this.haloThickness;
