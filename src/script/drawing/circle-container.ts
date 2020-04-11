@@ -1,7 +1,7 @@
 import { ICircle, IPositionSector } from "../types";
 
 export class CircleContainer {
-    constructor(public containerWidthHeight: number) {
+    constructor(public containerWidthHeight: number, public centerX: number, public centerY: number) {
         this.sectorWidth = Math.floor(this.containerWidthHeight / this.numberOfSectorDivisions);
         this.sectorHeight = Math.floor(this.containerWidthHeight / this.numberOfSectorDivisions);
     }
@@ -61,11 +61,12 @@ export class CircleContainer {
         const coordinatesSector = this.calculateSector(x, y);
         const circles = this.items
             .filter((c) => c.sectorColumn >= coordinatesSector.column - 1 
-                        && c.sectorColumn <= coordinatesSector.column +1
+                        && c.sectorColumn <= coordinatesSector.column + 1
                         && c.sectorRow >= coordinatesSector.row - 1
                         && c.sectorRow <= coordinatesSector.row + 1
         );
 
+        //console.log(coordinatesSector, circles.length);
         return circles;
     }
 

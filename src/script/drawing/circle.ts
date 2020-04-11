@@ -9,7 +9,7 @@ export class Circle implements ICircle {
     markedForRemoval = false;
 
     willCollideWith = (otherCircle: ICircle) => {
-        return this.distanceBetweenEdges(otherCircle) < 0;
+        return this.distanceBetweenEdges(otherCircle) <= 0;
     };
 
     distanceBetweenEdges(otherCircle: ICircle) {

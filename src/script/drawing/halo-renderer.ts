@@ -29,7 +29,7 @@ export class HaloRenderer extends BaseConstrainedRenderer {
         });
         this.circleColorSpecs = circleColorSpecs;
 
-        this.circles = new CircleContainer((this.radius + this.haloThickness) * 2);
+        this.circles = new CircleContainer((this.radius + this.haloThickness) * 2, centerX, centerY);
     }
 
     readonly greatestDistanceFromCenter = this.radius + this.haloThickness;
