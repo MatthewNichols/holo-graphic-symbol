@@ -84,6 +84,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { defineComponent, ref, reactive, toRefs, onMounted, watchEffect } from "@vue/composition-api";
 
 import { createDesignRenderer, render, clearData, getConfig } from "../drawing/holo-design-setup";
 import NumericRangeInput from "./numeric-range-input.vue";
@@ -109,48 +110,51 @@ const deepCopy = (inObject: any): any => {
  
 const createPlainCopyOfReactiveConfig = (reactiveConfig: any) => deepCopy(reactiveConfig); 
 
-export default Vue.extend({
+export default defineComponent({
   name: 'ControlPanelApp',
-  data() {
+  components: { NumericRangeInput, CircleColorsInput, CircleSizes, UiGrouping },
+  setup() {
     let messageToUser = "";
     const savedConfigStr = window.localStorage.getItem("saved-config");
     if (savedConfigStr) {
       var savedConfig = JSON.parse(savedConfigStr);
       messageToUser = "Your previous data is restored from localStorage. Click Reset if you want to start fresh."
     }
-    return { 
+
+    const state = reactive<any>({
       config: savedConfig || getConfig(),
       messageToUser
-    } 
-  },
-  components: { NumericRangeInput, CircleColorsInput, CircleSizes, UiGrouping },
-  created() {
-    createDesignRenderer(createPlainCopyOfReactiveConfig(this.config));
-    render();
+    });
 
-    setInterval(() => this.cancelMessage(), 10 * 1000)
-  },
-  methods: {
-    rerunClick() {
-      createDesignRenderer(createPlainCopyOfReactiveConfig(this.config));
-      clearData();
+    onMounted(() => {
+      createDesignRenderer(createPlainCopyOfReactiveConfig(state.config));
+      watchEffect(() => window.localStorage.setItem("saved-config", JSON.stringify(state.config)));
       render();
-    },
-    resetClick() {
-      this.config = getConfig();
+
+      setInterval(() => cancelMessage(), 10 * 1000)
+    });
+
+    const rerunClick = () => {
+        createDesignRenderer(createPlainCopyOfReactiveConfig(state.config));
+        clearData();
+        render();
+    };
+
+    const resetClick = () => {
+      state.config = getConfig();
       //Need to take this out of the flow so that it happens after the config watcher fires
       setInterval(() => window.localStorage.removeItem("saved-config"));
-    },
-    cancelMessage() {
-      this.messageToUser = "";
-    }
-  },
-  watch: {
-    config: {
-      deep: true,
-      handler(newVal) {
-        window.localStorage.setItem("saved-config", JSON.stringify(newVal));
-      }
+    };
+
+    const cancelMessage = () => {
+      state.messageToUser = "";
+    };
+
+    return {
+      ...toRefs(state),
+      rerunClick,
+      resetClick,
+      cancelMessage
     }
   }
 });
