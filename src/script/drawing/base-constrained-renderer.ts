@@ -50,23 +50,29 @@ export abstract class BaseConstrainedRenderer {
     }
 
     pickCircleColor(circleX: number, circleY: number) {
-        const closestColor = this.getNearestCircleToCoordinates(circleX, circleY);
+        const closestColor = this.getNearestCircleColorToCoordinates(circleX, circleY);
         const weightedPalette = [...this.circleColors, closestColor, closestColor, closestColor, closestColor, closestColor, closestColor];
         return weightedPalette[Math.floor(Math.random() * weightedPalette.length)];
     }
 
-    getNearestCircleToCoordinates(x: number, y: number, howMany = 1) {
-        const distanceCalc = (otherCircle: ICircle) => {
+    getNearestCircleColorToCoordinates(x: number, y: number, howMany = 1) {
+        //Calculate relative distance via Pythagorean theorem.
+        //Since we are only calculating for sorting purposes we don't
+        // need to do the final square root which is expensive
+        const relativeDistanceCalc = (otherCircle: ICircle) => {
             const xDiff = x - otherCircle.centerX;
             const yDiff = y - otherCircle.centerY;
-            return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
+            return Math.pow(xDiff, 2) + Math.pow(yDiff, 2);
         };
+
         const closestColor = this.circles
-            .map((c) => ({ distance: distanceCalc(c), color: c.color }))
+            .map((c) => ({ distance: relativeDistanceCalc(c), color: c.color }))
             .sort((a, b) => (a.distance > b.distance) ? 1 : -1);
+        
         if (closestColor.length) {
             return closestColor[0].color;
         }
+        
         return this.circleColors[0];
     }
 
