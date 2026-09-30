@@ -83,8 +83,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { defineComponent, ref, reactive, toRefs, onMounted, watchEffect } from "@vue/composition-api";
+import Vue, { defineComponent, ref, reactive, toRefs, onMounted, watchEffect } from "vue";
 
 import { createDesignRenderer, render, clearData, getConfig } from "../drawing/holo-design-setup";
 import NumericRangeInput from "./numeric-range-input.vue";
