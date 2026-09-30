@@ -4,26 +4,27 @@
             <div class="label-value">
                 <slot></slot>
             </div>
-            <input type="range" ref="rangeInput" :value="value" @input="updateValue" :min="min" :max="max" />
+            <input type="range" ref="rangeInput" :value="modelValue" @input="updateValue" :min="min" :max="max" />
         </label>
         <div class="input-value">
-            {{this.value}}
+            {{modelValue}}
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
     name: "NumericRangeInput",
+    emits: ["update:modelValue"],
     props: {
-        value: Number,
+        modelValue: Number,
         min: Number,
         max: Number
     },
     methods: {
         updateValue(event: InputEvent) {
-            this.$emit("input", (this.$refs.rangeInput as HTMLInputElement).value);
+            this.$emit("update:modelValue", (this.$refs.rangeInput as HTMLInputElement).value);
         }
     }
 })

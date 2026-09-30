@@ -6,10 +6,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import NumericRangeInput from "./numeric-range-input.vue";
 
-export default Vue.extend({
+export default defineComponent({
     name: "CircleSizeItem",
     props: {
         item: Object

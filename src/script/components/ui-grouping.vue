@@ -17,9 +17,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent } from 'vue';
 
-export default Vue.extend({
+export default defineComponent({
     name: 'UiGrouping',
     data() {
         return {
@@ -59,7 +59,7 @@ button {
   line-height: 1;
   opacity: 1;
 }
-.slide-enter, .slide-leave-to /* .fade-leave-active below version 2.1.8 */ {
+.slide-enter-from, .slide-leave-to {
   line-height: 0;
   opacity: 0;
 }

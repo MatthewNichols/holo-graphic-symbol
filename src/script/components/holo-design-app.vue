@@ -83,7 +83,7 @@
 </template>
 
 <script lang="ts">
-import Vue, { defineComponent, ref, reactive, toRefs, onMounted, watchEffect } from "vue";
+import { defineComponent, ref, reactive, toRefs, onMounted, watchEffect } from "vue";
 
 import { createDesignRenderer, render, clearData, getConfig } from "../drawing/holo-design-setup";
 import NumericRangeInput from "./numeric-range-input.vue";
@@ -165,7 +165,7 @@ export default defineComponent({
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+.fade-enter-from, .fade-leave-to {
   opacity: 0;
 }
 

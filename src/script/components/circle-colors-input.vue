@@ -4,7 +4,7 @@
             <template v-slot:name>Circle Colors</template>
 
             <div  class="circle-colors">
-                <circle-color-item  v-for="(color, index) in value" v-bind:key="index" 
+                <circle-color-item  v-for="(color, index) in modelValue" v-bind:key="index" 
                                 :color="color" 
                                 @updateValue="updateValue" 
                                 @removeItem="removeItem"></circle-color-item>
@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 
 import CircleColorItem from './circle-color-item.vue'
 import UiGrouping from "./ui-grouping.vue";
@@ -29,30 +29,31 @@ function getRandomColor() {
   return "#"+c()+c()+c();
 }
 
-export default Vue.extend({
+export default defineComponent({
     name: "CircleColorsInput",
+    emits: ["update:modelValue"],
     props: {
-        value: Array
+        modelValue: Array
     },
     components: {
         CircleColorItem, UiGrouping
     },
     methods: {
         updateValue(oldColor: string, newColor: string) {
-            const colorIndex = this.value.indexOf(oldColor);
-            const newColors = [...this.value];
+            const colorIndex = (this.modelValue as string[]).indexOf(oldColor);
+            const newColors = [...(this.modelValue as string[])];
             newColors[colorIndex] = newColor;
-            this.$emit("input", newColors);
+            this.$emit("update:modelValue", newColors);
         },
         removeItem(colorToRemove: string) {
-            const currentColors = this.value;
+            const currentColors = (this.modelValue as string[]);
             const newColors = currentColors.filter((color) => color !== colorToRemove);
-            this.$emit("input", newColors);
+            this.$emit("update:modelValue", newColors);
         },
         addNewColor() {
             const newColor = getRandomColor();
-            const newColors = [...this.value, newColor];
-            this.$emit("input", newColors);
+            const newColors = [...(this.modelValue as string[]), newColor];
+            this.$emit("update:modelValue", newColors);
         }
     }
 })

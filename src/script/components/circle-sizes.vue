@@ -10,12 +10,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 
 import CircleSizeItem from "./circle-size-item.vue";
 import UiGrouping from "./ui-grouping.vue";
 
-export default Vue.extend({
+export default defineComponent({
     name: "CircleSizes",
     props: {
         sizes: Array
