@@ -1,5 +1,11 @@
 # holo-graphic-symbol
 
+## State of the project
+
+Until today I hadn't touched this project in a while. Picking it up again I see the dependencies are very out of date. I will get that squared away in the next few days. At the moment it is not really runaable locally. But the Netlify deployment is working and you can play with it there.
+
+## About
+
 I have a lot of friends at [Holo](https://holo.host/) / [Holochain](https://holochain.org/) and I saw one of the designs on their site and got inspired to practice some new skills with HTML Canvas rendering and animating it in interesting ways. Work in progress. 
 
 <video controls autoplay loop muted playsinline>
