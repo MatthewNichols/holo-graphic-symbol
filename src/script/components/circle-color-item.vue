@@ -10,12 +10,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
     name: 'CircleColorInput',
     props: {
         color: String
     },
+    emits: ["updateValue", "removeItem"],
     methods: {
         updateValue(event: InputEvent) {
             const newColor = (this.$refs.colorInput as HTMLInputElement).value;
