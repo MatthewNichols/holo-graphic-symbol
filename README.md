@@ -2,7 +2,7 @@
 
 I have a lot of friends at [Holo](https://holo.host/) / [Holochain](https://holochain.org/) and I saw one of the designs on their site and got inspired to practice some new skills with HTML Canvas rendering and animating it in interesting ways. Work in progress. 
 
-The latest version is autodeployed on Netlify at https://holo-graphic-symbol.netlify.com/. It has controls that let you tweek the assorted parameters that drive the visuals.
+The latest version is autodeployed on Netlify at [https://holo-graphic-symbol.netlify.com/](https://holo-graphic-symbol.netlify.app/). It has controls that let you tweak the assorted parameters that drive the visuals.
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/7366ae2c-0053-46a3-8d7e-92a901716f39/deploy-status)](https://app.netlify.com/sites/holo-graphic-symbol/deploys)
 
