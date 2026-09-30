@@ -2,9 +2,6 @@
   "name": "holo-graphic-symbol",
   "version": "1.0.0",
   "description": "Dev area for developing the dynamic Holo symbol",
-  "engines": {
-    "node": ">=20.19.0"
-  },
   "scripts": {
     "start": "parcel src/index.html src/canvas.html",
     "build": "parcel build src/*.html",
