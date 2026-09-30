@@ -2,11 +2,10 @@
   "name": "holo-graphic-symbol",
   "version": "1.0.0",
   "description": "Dev area for developing the dynamic Holo symbol",
-  "main": "index.js",
   "scripts": {
     "start": "parcel src/index.html src/canvas.html",
     "build": "parcel build src/*.html",
-    "build-smaller": "parcel build src/*.html --experimental-scope-hoisting",
+    "build-smaller": "parcel build src/*.html",
     "run-build": "npx http-server ./dist"
   },
   "repository": {
@@ -23,8 +22,10 @@
     "vue": "^2.7.16"
   },
   "devDependencies": {
+    "@parcel/transformer-sass": "^2.16.4",
+    "@parcel/transformer-vue": "^2.16.4",
     "@vue/component-compiler-utils": "^3.3.0",
-    "parcel-bundler": "^1.12.5",
+    "parcel": "^2.16.4",
     "sass": "^1.105.1",
     "typescript": "^5.9.3",
     "vue-template-compiler": "^2.7.16"
