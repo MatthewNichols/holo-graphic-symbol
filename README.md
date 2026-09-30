@@ -16,10 +16,10 @@ The latest version is autodeployed on Netlify at [https://holo-graphic-symbol.ne
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/7366ae2c-0053-46a3-8d7e-92a901716f39/deploy-status)](https://app.netlify.com/sites/holo-graphic-symbol/deploys)
 
-It is a NPM/(ParcelJS)[https://parceljs.org/] project written in Typescript. The main rendering code is talking directly to HTML Canvas and the parameters UI is in [VUE.JS](https://vuejs.org/). I have run this on both Windows and [WSL](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux "Windows Subsystem for Linux") so it should be runnable elsewhere.
+It is a NPM/[ParcelJS](https://parceljs.org/) project written in Typescript. The main rendering code is talking directly to HTML Canvas and the parameters UI is in [VUE.JS](https://vuejs.org/). I have run this on both Windows and [WSL](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux "Windows Subsystem for Linux") so it should be runnable elsewhere.
 
 ## Setup to play with locally
-I am assuming you have Node/NPM installed. I have tried to make it run with all other dependencies being local.
+I am assuming you have Node (20.19 or newer) and NPM installed. I have tried to make it run with all other dependencies being local.
 
 - Clone project locally
 - In a command line:
